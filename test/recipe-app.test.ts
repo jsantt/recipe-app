@@ -1,13 +1,13 @@
 import { html } from 'lit';
 import { fixture, expect } from '@open-wc/testing';
 
-import type { RecipeApp } from '../src/recipe-app.js';
-import '../src/recipe-app.js';
+import type { AppShell } from '../src/app-shell.js';
+import '../src/app-shell.js';
 
 describe('RecipeApp', () => {
-  let element: RecipeApp;
+  let element: AppShell;
   beforeEach(async () => {
-    element = await fixture(html`<recipe-app></recipe-app>`);
+    element = await fixture(html`<app-shell></app-shell>`);
   });
 
   it('renders a h1', () => {
