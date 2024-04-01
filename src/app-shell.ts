@@ -1,12 +1,12 @@
 import { LitElement, html, css } from 'lit';
-import { property, customElement } from 'lit/decorators.js';
+import { customElement } from 'lit/decorators.js';
 
 import './recipes-page/recipes-page.js';
 import './recipe-page/recipe-page.js';
 
 @customElement('app-shell')
 export class AppShell extends LitElement {
-  @property({ type: String }) header = 'My app';
+ 
 
   static styles = css`
     * {

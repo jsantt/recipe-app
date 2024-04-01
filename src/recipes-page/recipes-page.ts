@@ -10,6 +10,17 @@ export class IndexRoute extends LitElement {
       box-sizing: border-box;
     }
 
+    a,
+    a:hover,
+    a:active {
+      color: inherit;
+      font-weight: 700;
+    }
+
+    a:visited {
+      font-weight: 400;
+    }
+
     recipe-list {
       display: block;
     }
@@ -17,6 +28,8 @@ export class IndexRoute extends LitElement {
     ul {
       margin: 0;
       padding: 0;
+      text-align: center;
+      margin-top: 4rem;
     }
 
     li {

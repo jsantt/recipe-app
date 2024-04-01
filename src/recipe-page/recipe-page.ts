@@ -10,6 +10,7 @@ const ADD_TO_SHOPPING_LIST_URL = '/add-to-shopping-list';
 export class RecipePage extends LitElement {
   static styles = css`
     .tabs {
+      margin-bottom: 1.5rem;
       ul {
         margin: 0;
         padding: 0;
@@ -20,19 +21,22 @@ export class RecipePage extends LitElement {
         list-style: none;
         padding-right: 0.5rem;
       }
-    }
-    .back {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
 
-      display: flex;
-      align-items: center;
-    }
+      a {
+        text-decoration: none;
+      }
 
-    .back.a {
-      padding: 0.5rem;
+      a,
+      a:visited,
+      a:hover,
+      a:active {
+        color: inherit;
+      }
+
+      a.active {
+        text-decoration: underline;
+        font-weight: 700;
+      }
     }
   `;
 
@@ -69,19 +73,25 @@ export class RecipePage extends LitElement {
       return html`error`;
     }
     return html`
-      öö
       <heading><h1>${this.recipe.name}</h1></heading>
       <nav class="tabs">
         <ul>
-          <li><a href="${this.recipe.path}">Ohje</a></li>
           <li>
-            <a href="${this.recipe.path}/add-to-shopping-list"
+            <a
+              href="${this.recipe.path}"
+              class=${this.isAddToShoppingListPage ? '' : 'active'}
+              >Ohje</a
+            >
+          </li>
+          <li>
+            <a
+              href="${this.recipe.path}/add-to-shopping-list"
+              class=${this.isAddToShoppingListPage ? 'active' : ''}
               >Lisää Ostoslistalle</a
             >
           </li>
         </ul>
       </nav>
-      ${this.isAddToShoppingListPage}
       <main>
         ${this.isAddToShoppingListPage === false
           ? html` <instructions-tab .recipe=${this.recipe}></instructions-tab> `
@@ -89,7 +99,6 @@ export class RecipePage extends LitElement {
               .recipe=${this.recipe}
             ></add-to-shopping-list-tab>`}
       </main>
-      <nav class="back"><a href="/">takaisin</a></nav>
     `;
   }
 }
