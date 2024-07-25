@@ -1,13 +1,16 @@
 import { LitElement, html, css } from 'lit';
-import { customElement } from 'lit/decorators.js';
+import { customElement, state } from 'lit/decorators.js';
 
-import './recipes-page/recipes-page.js';
+import './home-page/home-page.js';
 import './recipe-page/recipe-page.js';
+
+import './shopping-list/shopping-list-modal.js';
+import './shopping-list/shopping-list-button.js';
+import { getState } from './data/state.js';
+import { Recipe } from './data/data.js';
 
 @customElement('app-shell')
 export class AppShell extends LitElement {
- 
-
   static styles = css`
     * {
       box-sizing: border-box;
@@ -21,11 +24,35 @@ export class AppShell extends LitElement {
     }
   `;
 
+  @state()
+  recipes: Recipe[];
+
+  constructor() {
+    super();
+    const recipes = getState();
+    const searchParams = new URLSearchParams(window.location.search);
+
+    this.recipes = recipes.map((recipe: Recipe) => {
+      if (searchParams.get(recipe.id) === null) {
+        return recipe;
+      }
+      const copy = { ...recipe };
+      copy.selected = true;
+      return copy;
+    });
+  }
+
   render() {
-    return html`${window.location.pathname === '/'
-      ? html`<recipes-page></recipes-page>`
-      : ''}
-    ${window.location.pathname !== '/' ? html`<recipe-page></recipe-page>` : ''}`;
+    if (window.location.pathname === '/') {
+      return html`<home-page
+        .recipes=${this.recipes}
+        @recipes-changed=${(event: { detail: Recipe[] }) => {
+          this.recipes = event.detail;
+        }}
+      ></home-page>`;
+    }
+
+    return html`<recipe-page .recipes=${this.recipes}></recipe-page>`;
   }
 }
 

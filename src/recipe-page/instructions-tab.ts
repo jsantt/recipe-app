@@ -2,10 +2,12 @@ import { LitElement, html, css } from 'lit';
 import { property, customElement } from 'lit/decorators.js';
 import { Recipe } from '../data/data.js';
 import '../back-button/back-button.js';
+import '../text-checkbox.js';
 
 @customElement('instructions-tab')
 export class InstructionsTab extends LitElement {
-  @property({ type: Object }) recipe: Recipe | undefined;
+  @property({ type: Object })
+  recipe!: Recipe;
 
   static styles = css`
     :host {
@@ -41,9 +43,8 @@ export class InstructionsTab extends LitElement {
       font-weight: 700;
     }
 
-    input[type='checkbox'] {
-      height: 1.5rem;
-      width: 1.5rem;
+    .row {
+      display: flex;
     }
   `;
 
@@ -57,18 +58,18 @@ export class InstructionsTab extends LitElement {
                   <div>
                     ${step.ingredients.map(
                       ingredient =>
-                        html`<label class="ingredient">
-                          <div>
+                        html`<text-checkbox>
+                          <div slot="text">
                             ${ingredient.amount} ${ingredient.unit}
                             ${ingredient.name}
                           </div>
-                          <input type="checkbox" />
-                        </label>`
+                          <input slot="checkbox" type="checkbox" />
+                        </text-checkbox>`
                     )}
-                    <label>
+                    <text-checkbox>
                       <div>${step.instructions}</div>
                       <input type="checkbox" />
-                    </label>
+                    </text-checkbox>
                   </div>
                 </div>`
           )}
