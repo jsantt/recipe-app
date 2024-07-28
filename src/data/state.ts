@@ -21,7 +21,7 @@ function getRecipe(path: string): Recipe | undefined {
 } */
 
 function isInShoppingList(ingredient: Ingredient): boolean {
-  return ingredient.inShoppingList;
+  return ingredient.inShoppingList === true;
 }
 
 function shoppingListItems(ingredients: Ingredient[]): Ingredient[] {

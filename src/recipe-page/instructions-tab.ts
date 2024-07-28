@@ -1,7 +1,7 @@
 import { LitElement, html, css } from 'lit';
 import { property, customElement } from 'lit/decorators.js';
 import { Recipe } from '../data/data.js';
-import '../back-button/back-button.js';
+import '../bottom-bar/bottom-bar.js';
 import '../text-checkbox.js';
 
 @customElement('instructions-tab')
@@ -46,6 +46,10 @@ export class InstructionsTab extends LitElement {
     .row {
       display: flex;
     }
+    .instructions {
+      margin-top: 1rem;
+      font-weight: 600;
+    }
   `;
 
   render() {
@@ -66,16 +70,14 @@ export class InstructionsTab extends LitElement {
                           <input slot="checkbox" type="checkbox" />
                         </text-checkbox>`
                     )}
-                    <text-checkbox>
+                    <div class="instructions">
                       <div>${step.instructions}</div>
-                      <input type="checkbox" />
-                    </text-checkbox>
+                    </div>
                   </div>
                 </div>`
           )}
         </section>
       </main>
-      <back-button backUrl="./"></back-button>
-    `;
+      <bottom-bar><a href="./">Takaisin</a></bottom-bar>`;
   }
 }

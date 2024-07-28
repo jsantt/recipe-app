@@ -44,6 +44,8 @@ export class HomePage extends LitElement {
 
   render() {
     return html`
+      <h1>Kaalilaatikko.com</h1>
+      <h2>Kauppalista ja reseptit yhdessä</h2>
       <main>
         <ul>
           ${this.recipes.map(
@@ -53,7 +55,7 @@ export class HomePage extends LitElement {
                 <input
                   slot="checkbox"
                   type="checkbox"
-                  ?checked=${recipe.selected}
+                  ?checked=${recipe.selected === true}
                   name=${recipe.id}
                   .value=${recipe.path}
                   @change=${() => this.recipeClicked(recipe)}
@@ -63,6 +65,11 @@ export class HomePage extends LitElement {
           )}
         </ul>
       </main>
+      <bottom-bar>
+        <!--button type="button" @click=${this.removeSelections}>
+            Tyhjennä kaikki
+          </button-->
+      </bottom-bar>
       <shopping-list-button
         .recipes=${this.recipes}
         @click=${() => {
@@ -84,7 +91,6 @@ export class HomePage extends LitElement {
       newSearchParams.delete(clickedRecipe.id);
     }
 
-    // const newUrl = new URL(`${window.location.origin}${window.location.pathname}`)
     const newUrl = new URL(window.location.href);
     newUrl.search = newSearchParams.toString();
     window.history.pushState(null, document.title, newUrl);
@@ -104,5 +110,28 @@ export class HomePage extends LitElement {
         detail: recipes,
       })
     );
+  }
+
+  removeSelections(event: Event) {
+    event.preventDefault();
+    const recipes = this.recipes.map((recipe: Recipe) => {
+      const copy = { ...recipe };
+      copy.selected = false;
+      return copy;
+    });
+
+    this.dispatchEvent(
+      new CustomEvent('recipes-changed', {
+        detail: recipes,
+      })
+    );
+
+    // const newUrl = new URL(
+    // `${window.location.origin}${window.location.pathname}`
+    // );
+
+    // const newUrl = new URL(`${window.location.origin}${window.location.pathname}`)
+    // newUrl.search = '';
+    // window.history.pushState(null, document.title, newUrl);
   }
 }

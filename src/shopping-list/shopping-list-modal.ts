@@ -1,6 +1,6 @@
 import { LitElement, html, css } from 'lit';
 import { property, customElement } from 'lit/decorators.js';
-import '../back-button/back-button.js';
+import '../bottom-bar/bottom-bar.js';
 import { Recipe } from '../data/data.js';
 
 @customElement('shopping-list-modal')
@@ -21,10 +21,9 @@ export class ShoppingListModal extends LitElement {
       right: 0;
       bottom: 0;
       left: 0;
-    }
 
-    :host {
       background: lightblue;
+      padding: 1rem;
     }
   `;
 
@@ -45,10 +44,13 @@ export class ShoppingListModal extends LitElement {
                   ${step.ingredients.map(
                     ingredient =>
                       html`
-                        <div slot="text">
-                          ${ingredient.amount} ${ingredient.unit}
-                          ${ingredient.name}
-                        </div>
+                        <text-checkbox>
+                          <input slot="checkbox" type="checkbox"></input>
+                          <div slot="text">
+                            ${ingredient.amount} ${ingredient.unit}
+                            ${ingredient.name}
+                          </div>
+                        </text-checkbox>
                       `
                   )}
                 </div>`
