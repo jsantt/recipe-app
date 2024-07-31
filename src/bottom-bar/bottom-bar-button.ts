@@ -19,12 +19,17 @@ export class BottomBarButton extends LitElement {
       margin: 0px auto;
       touch-action: manipulation;
       width: 100%;
+      padding: 0.5rem 0.5rem 0.25rem 0.5rem;
+    }
+    ::slotted(svg) {
+      width: 1.5rem;
+      height: 1.5rem;
     }
   `;
 
   render() {
     return html`<button>
-      <slot></slot>
+    <slot></slot>
     </button>`;
   }
 }
