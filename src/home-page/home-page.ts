@@ -7,10 +7,6 @@ import '../bottom-bar/bottom-bar-button.js';
 @customElement('home-page')
 export class HomePage extends LitElement {
   static styles = css`
-    * {
-      box-sizing: border-box;
-    }
-
     a,
     a:hover,
     a:active {
@@ -30,7 +26,6 @@ export class HomePage extends LitElement {
       margin: 0;
       padding: 0;
       text-align: center;
-      margin-top: 4rem;
     }
 
     li {
@@ -47,7 +42,6 @@ export class HomePage extends LitElement {
   render() {
     return html`
       <h1>Kaalilaatikko.com</h1>
-      <h2>Kauppalista ja reseptit yhdessä</h2>
       <main>
         <ul>
           ${this.recipes.map(
@@ -77,7 +71,7 @@ export class HomePage extends LitElement {
           </svg>
           Tyhjennä kaikki
         </bottom-bar-button>
-        <bottom-bar-button
+        <bottom-bar-button middle @click=${this.selectRandom}
           ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
             <!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
             <path
@@ -86,7 +80,7 @@ export class HomePage extends LitElement {
           </svg>
           Satunnainen
         </bottom-bar-button>
-        <bottom-bar-button
+        <bottom-bar-button @click=${HomePage._share}
           ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
             <!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
             <path
@@ -138,6 +132,19 @@ export class HomePage extends LitElement {
     );
   }
 
+  selectRandom() {
+
+    const random = Math.floor(Math.random() * this.recipes.length)
+
+    const recipes = this.recipes.filter((_, index: number) => index === random);
+
+    this.dispatchEvent(
+      new CustomEvent('recipes-changed', {
+        detail: recipes,
+      })
+    );
+  }
+
   removeSelections(event: Event) {
     event.preventDefault();
     const recipes = this.recipes.map((recipe: Recipe) => {
@@ -159,5 +166,15 @@ export class HomePage extends LitElement {
     // const newUrl = new URL(`${window.location.origin}${window.location.pathname}`)
     // newUrl.search = '';
     // window.history.pushState(null, document.title, newUrl);
+  }
+
+  static _share() {
+    if (navigator.share) {
+      navigator.share({
+        title: 'Kaalilaatikko.com',
+        text: 'Hei, tässä ehdottamani ruoat',
+        url: window.location.href,
+      });
+    }
   }
 }

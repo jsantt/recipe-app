@@ -8,19 +8,15 @@ export class InstructionsTab extends LitElement {
       display: block;
     }
 
-    :host * {
-      box-sizing: border-box;
-    }
-
     label {
       display: flex;
       align-items: center;
     }
 
     ::slotted(input[type='checkbox']) {
-      min-height: 1.5rem;
+      min-height: 1.75rem;
       min-width: 1.5rem;
-      margin-right: 0.5rem;
+      margin-right: 1.25rem;
     }
   `;
 

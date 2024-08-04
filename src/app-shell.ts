@@ -11,21 +11,13 @@ import { Recipe } from './data/data.js';
 
 @customElement('app-shell')
 export class AppShell extends LitElement {
-  static styles = css`
-    * {
-      box-sizing: border-box;
-    }
-    aside {
-      position: fixed;
-      right: 0;
-      border: 1px solid black;
-      width: 5rem;
-      bottom: 6rem;
-    }
-  `;
+  static styles = css``;
 
   @state()
   recipes: Recipe[];
+
+  @state()
+  page: 'home' | 'recipe' = 'home';
 
   constructor() {
     super();
@@ -40,10 +32,14 @@ export class AppShell extends LitElement {
       copy.selected = true;
       return copy;
     });
+
+    if (window.location.pathname !== '/') {
+      this.page = 'recipe';
+    }
   }
 
   render() {
-    if (window.location.pathname === '/') {
+    if (this.page === 'home') {
       return html`<home-page
         .recipes=${this.recipes}
         @recipes-changed=${(event: { detail: Recipe[] }) => {

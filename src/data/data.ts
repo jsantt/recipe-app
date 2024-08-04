@@ -32,6 +32,56 @@ export const data: Recipe[] = [
     steps: [],
   },
   {
+    id: 'ba2',
+    name: 'Banaanipannukakku',
+    path: '/banaanipannukakku',
+    portions: 2,
+    tags: [],
+    steps: [
+      {
+        heading: 'Taikina',
+        ingredients: [
+          {
+            amount: 2,
+            name: 'munaa',
+          },
+          {
+            amount: 2,
+            name: 'maitoa',
+            unit: 'dl',
+          },
+          {
+            amount: 50,
+            name: 'sokeria',
+            unit: 'g',
+          },
+          {
+            amount: 5,
+            name: 'suolaa',
+            unit: 'g',
+          },
+          {
+            amount: 200,
+            name: 'jauhoa',
+            unit: 'g',
+          },
+        ],
+        instructions: 'Sekoita ainekset keskenään.',
+      },
+      {
+        heading: 'Paistaminen',
+        ingredients: [
+          {
+            amount: 2,
+            name: 'banaania',
+          },
+        ],
+        instructions:
+          'Pilko banaanit paistinpannun pohjalle. Kaada taikina päälle. Paista kunnes kypsä.',
+      },
+    ],
+  },
+  {
     id: 'br1',
     name: 'Broileri-rucolasalaatti',
     path: '/broileri-rucolasalaatti',
@@ -337,7 +387,7 @@ export const data: Recipe[] = [
           {
             amount: 2,
             unit: 'tl',
-            name: 'kurkumaa',
+            name: 'kurkumaa (ei pakollinen, värjää)',
           },
           {
             amount: 2,

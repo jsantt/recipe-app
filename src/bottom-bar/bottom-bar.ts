@@ -4,10 +4,9 @@ import { customElement } from 'lit/decorators.js';
 @customElement('bottom-bar')
 export class BottomBar extends LitElement {
   static styles = css`
-    * {
-      box-sizing: border-box;
+    :host {
+      display: block;
     }
-
     a,
     a:visited,
     a:hover,
@@ -16,6 +15,8 @@ export class BottomBar extends LitElement {
     }
 
     nav {
+      border-top: 1px solid grey;
+
       background: white;
       position: fixed;
       bottom: 0;

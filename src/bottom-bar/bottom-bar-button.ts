@@ -4,9 +4,6 @@ import { customElement } from 'lit/decorators.js';
 @customElement('bottom-bar-button')
 export class BottomBarButton extends LitElement {
   static styles = css`
-    * {
-      box-sizing: border-box;
-    }
     button {
       background: none;
       border: none;
@@ -25,11 +22,23 @@ export class BottomBarButton extends LitElement {
       width: 1.5rem;
       height: 1.5rem;
     }
+
+    :host([middle]) button {
+      position: relative;
+    }
+
+
+    :host([middle]) ::slotted(svg) {
+      width: 4rem;
+      height: 4rem;
+      position: absolute;
+      bottom: 1rem;
+    }
   `;
 
   render() {
     return html`<button>
-    <slot></slot>
+      <slot></slot>
     </button>`;
   }
 }

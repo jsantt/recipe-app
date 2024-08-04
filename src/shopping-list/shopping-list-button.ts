@@ -7,9 +7,7 @@ export class ShoppingListButton extends LitElement {
   @property({ type: Number }) amount: Number = 0;
 
   static styles = css`
-    :host * {
-      box-sizing: border-box;
-    }
+
 
     :host {
       display: block;
