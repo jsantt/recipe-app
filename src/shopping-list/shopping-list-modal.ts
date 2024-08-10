@@ -2,26 +2,14 @@ import { LitElement, html, css } from 'lit';
 import { property, customElement } from 'lit/decorators.js';
 import '../bottom-bar/bottom-bar.js';
 import { Recipe } from '../data/data.js';
+import { toggleModal } from '../router.js';
 
 @customElement('shopping-list-modal')
 export class ShoppingListModal extends LitElement {
   @property({ type: Boolean }) open = false;
 
   @property({ type: Array })
-  recipes!: Recipe[];
-
-  updated(changedProperties: Map<string, any>) {
-    const newSearchParams = new URLSearchParams(window.location.search);
-    if (changedProperties.has('open') === true && this.open) {
-      newSearchParams.append('shopping-list', '');
-    } else {
-      newSearchParams.delete('shopping-list');
-    }
-
-    const newUrl = new URL(window.location.href);
-    newUrl.search = newSearchParams.toString();
-    window.history.pushState(null, document.title, newUrl);
-  }
+  recipes: Recipe[] = [];
 
   static styles = css`
     :host([open]) {
@@ -44,7 +32,7 @@ export class ShoppingListModal extends LitElement {
       <h1>Ostoslista</h1>
       <main>
         ${this.recipes
-          .filter((recipe: Recipe) => recipe.selected)
+          ?.filter((recipe: Recipe) => recipe.selected)
           .map(
             recipe => html`
               <h2>${recipe.name}</h2>
@@ -71,7 +59,7 @@ export class ShoppingListModal extends LitElement {
         <bottom-bar-button></bottom-bar-button>
         <bottom-bar-button
           @click=${() => {
-            window.history.back();
+            toggleModal('shopping-list');
           }}
           ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
             <!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->

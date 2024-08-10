@@ -6,6 +6,11 @@ import '../text-checkbox.js';
 import '../bottom-bar/bottom-bar.js';
 import '../bottom-bar/bottom-bar-button.js';
 
+import '../shopping-list/shopping-list-modal.js';
+import '../shopping-list/shopping-list-button.js';
+
+import { navigateBack, navigateTo, toggleModal } from '../router.js';
+
 @customElement('recipe-page')
 export class RecipePage extends LitElement {
   static styles = css`
@@ -48,13 +53,13 @@ export class RecipePage extends LitElement {
   `;
 
   @property({ type: Array })
-  recipes!: Recipe[];
+  recipes: Recipe[] = [];
+
+  @property({ type: Boolean })
+  modal!: boolean;
 
   @state()
   private recipe: Recipe | undefined;
-
-  @state()
-  private open: boolean = false;
 
   constructor() {
     super();
@@ -96,8 +101,9 @@ export class RecipePage extends LitElement {
         )}
       </main>
       <shopping-list-button
+        .recipes=${this.recipes}
         @click=${() => {
-          this.open = !this.open;
+          toggleModal('shopping-list');
         }}
       ></shopping-list-button>
       <bottom-bar>
@@ -112,7 +118,7 @@ export class RecipePage extends LitElement {
         <bottom-bar-button
           middle
           @click=${() => {
-            window.history.back();
+            navigateTo('/');
           }}
           ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
             <!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
@@ -131,7 +137,7 @@ export class RecipePage extends LitElement {
           Jaa resepti
         </bottom-bar-button>
       </bottom-bar>
-      <shopping-list-modal ?open=${this.open}></shopping-list-modal>
+      <shopping-list-modal ?open=${this.modal}></shopping-list-modal>
     `;
   }
 }

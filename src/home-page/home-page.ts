@@ -1,8 +1,13 @@
 import { LitElement, html, css } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js';
+import { customElement, property, query } from 'lit/decorators.js';
 import { Recipe } from '../data/data.js';
 import '../bottom-bar/bottom-bar.js';
 import '../bottom-bar/bottom-bar-button.js';
+import { navigateTo, toggleModal } from '../router.js';
+
+import '../shopping-list/shopping-list-modal.js';
+import '../shopping-list/shopping-list-button.js';
+import { hasUrlParam, toggleUrlParam } from '../url.js';
 
 @customElement('home-page')
 export class HomePage extends LitElement {
@@ -22,6 +27,15 @@ export class HomePage extends LitElement {
       max-width: 25rem;
     }
 
+    .tags {
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    label {
+      margin: 0.5rem 1rem;
+    }
+
     ul {
       margin: 0;
       padding: 0;
@@ -34,31 +48,54 @@ export class HomePage extends LitElement {
   `;
 
   @property({ type: Array })
-  recipes!: Recipe[];
+  recipes: Recipe[] = [];
 
-  @state()
-  open: boolean = false;
+  @property({ type: Boolean })
+  modal!: boolean;
+
+  @query('input[name=random]')
+  randomCheckbox!: HTMLInputElement;
 
   render() {
     return html`
       <h1>Kaalilaatikko.com</h1>
       <main>
+        <section class="tags">
+          <label>
+            <input type="checkbox" name="random" @click=${this.toggleRandom} />
+            satunnainen
+          </label>
+          <label>
+            <input type="checkbox" class="tag" />
+            fodmap
+          </label>
+        </section>
         <ul>
-          ${this.recipes.map(
-            recipe => html` <li>
-              <text-checkbox>
-                <a slot="text" href=${recipe.path}>${recipe.name}</a>
-                <input
-                  slot="checkbox"
-                  type="checkbox"
-                  ?checked=${recipe.selected === true}
-                  name=${recipe.id}
-                  .value=${recipe.path}
-                  @change=${() => this.recipeClicked(recipe)}
-                />
-              </text-checkbox>
-            </li>`
-          )}
+          ${this.recipes
+            .filter(recipe => recipe.show !== false)
+            .map(
+              recipe => html` <li>
+                <text-checkbox>
+                  <a
+                    slot="text"
+                    href=${recipe.path}
+                    @click=${(ev: Event) => {
+                      ev.preventDefault();
+                      navigateTo(recipe.path);
+                    }}
+                    >${recipe.name}
+                  </a>
+                  <input
+                    slot="checkbox"
+                    type="checkbox"
+                    ?checked=${recipe.selected === true}
+                    name=${recipe.id}
+                    .value=${recipe.path}
+                    @change=${() => this.recipeClicked(recipe)}
+                  />
+                </text-checkbox>
+              </li>`
+            )}
         </ul>
       </main>
       <bottom-bar>
@@ -71,7 +108,12 @@ export class HomePage extends LitElement {
           </svg>
           Tyhjennä kaikki
         </bottom-bar-button>
-        <bottom-bar-button middle @click=${this.selectRandom}
+        <bottom-bar-button
+          middle
+          @click=${() => {
+            this.randomCheckbox.checked = true;
+            this.toggleRandom();
+          }}
           ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
             <!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
             <path
@@ -93,12 +135,12 @@ export class HomePage extends LitElement {
       <shopping-list-button
         .recipes=${this.recipes}
         @click=${() => {
-          this.open = !this.open;
+          toggleModal('shopping-list');
         }}
       ></shopping-list-button>
       <shopping-list-modal
         .recipes=${this.recipes}
-        ?open=${this.open}
+        ?open=${this.modal}
       ></shopping-list-modal>
     `;
   }
@@ -125,6 +167,10 @@ export class HomePage extends LitElement {
       return copy;
     });
 
+    this.dispatchChanged(recipes);
+  }
+
+  private dispatchChanged(recipes: Recipe[]) {
     this.dispatchEvent(
       new CustomEvent('recipes-changed', {
         detail: recipes,
@@ -132,17 +178,25 @@ export class HomePage extends LitElement {
     );
   }
 
-  selectRandom() {
+  toggleRandom() {
+    const random = Math.floor(Math.random() * this.recipes.length);
 
-    const random = Math.floor(Math.random() * this.recipes.length)
+    const recipes = this.recipes.map((item, index: number) => {
+      const copy = { ...item };
 
-    const recipes = this.recipes.filter((_, index: number) => index === random);
+      if (index === random || !this.randomCheckbox.checked) {
+        copy.show = true;
+      } else {
+        copy.show = false;
+      }
+      return copy;
+    });
 
-    this.dispatchEvent(
-      new CustomEvent('recipes-changed', {
-        detail: recipes,
-      })
-    );
+    // this.randomCheckbox.checked = !this.randomCheckbox.checked;
+
+    toggleUrlParam('random');
+
+    this.dispatchChanged(recipes);
   }
 
   removeSelections(event: Event) {
@@ -153,19 +207,11 @@ export class HomePage extends LitElement {
       return copy;
     });
 
-    this.dispatchEvent(
-      new CustomEvent('recipes-changed', {
-        detail: recipes,
-      })
-    );
+    this.dispatchChanged(recipes);
 
-    // const newUrl = new URL(
-    // `${window.location.origin}${window.location.pathname}`
-    // );
-
-    // const newUrl = new URL(`${window.location.origin}${window.location.pathname}`)
-    // newUrl.search = '';
-    // window.history.pushState(null, document.title, newUrl);
+    const newUrl = new URL(window.location.href);
+    newUrl.search = '';
+    window.history.pushState(null, document.title, newUrl);
   }
 
   static _share() {

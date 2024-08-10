@@ -4,10 +4,9 @@ import { customElement, state } from 'lit/decorators.js';
 import './home-page/home-page.js';
 import './recipe-page/recipe-page.js';
 
-import './shopping-list/shopping-list-modal.js';
-import './shopping-list/shopping-list-button.js';
 import { getState } from './data/state.js';
 import { Recipe } from './data/data.js';
+import { getPage, routeChangedEventName } from './router.js';
 
 @customElement('app-shell')
 export class AppShell extends LitElement {
@@ -19,9 +18,13 @@ export class AppShell extends LitElement {
   @state()
   page: 'home' | 'recipe' = 'home';
 
+  @state()
+  modal?: 'shopping-list';
+
   constructor() {
     super();
     const recipes = getState();
+
     const searchParams = new URLSearchParams(window.location.search);
 
     this.recipes = recipes.map((recipe: Recipe) => {
@@ -33,22 +36,36 @@ export class AppShell extends LitElement {
       return copy;
     });
 
-    if (window.location.pathname !== '/') {
-      this.page = 'recipe';
-    }
+    this.page = getPage();
+
+    window.addEventListener(routeChangedEventName, () => {
+      this.page = getPage();
+      if (window.location.search.includes('shopping-list')) {
+        this.modal = 'shopping-list';
+      } else {
+        this.modal = undefined;
+      }
+    });
   }
 
   render() {
     if (this.page === 'home') {
-      return html`<home-page
-        .recipes=${this.recipes}
-        @recipes-changed=${(event: { detail: Recipe[] }) => {
-          this.recipes = event.detail;
-        }}
-      ></home-page>`;
+      return html`${this.modal}<home-page
+          .modal=${this.modal === 'shopping-list'}
+          .recipes=${this.recipes}
+          @recipes-changed=${(event: { detail: Recipe[] }) => {
+            this.recipes = event.detail;
+          }}
+        ></home-page>`;
     }
 
-    return html`<recipe-page .recipes=${this.recipes}></recipe-page>`;
+    return html`<recipe-page
+      .modal=${this.modal === 'shopping-list'}
+      .recipes=${this.recipes}
+      @recipes-changed=${(event: { detail: Recipe[] }) => {
+        this.recipes = event.detail;
+      }}
+    ></recipe-page>`;
   }
 }
 

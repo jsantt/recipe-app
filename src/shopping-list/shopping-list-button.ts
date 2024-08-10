@@ -4,11 +4,10 @@ import { Recipe } from '../data/data.js';
 
 @customElement('shopping-list-button')
 export class ShoppingListButton extends LitElement {
-  @property({ type: Number }) amount: Number = 0;
+  @property({ type: Array })
+  recipes: Recipe[] = [];
 
   static styles = css`
-
-
     :host {
       display: block;
     }
@@ -34,13 +33,10 @@ export class ShoppingListButton extends LitElement {
     }
   `;
 
-  @property({ type: Array })
-  recipes!: Recipe[];
-
   render() {
     return html`<button>
       <aside>
-        ${this.recipes.filter((recipe: Recipe) => recipe.selected).length}
+        ${this.recipes?.filter((recipe: Recipe) => recipe.selected).length}
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
           <!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
           <path

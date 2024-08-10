@@ -1,3 +1,21 @@
+function toggleUrlParam(paramName: string) {
+  const newSearchParams = new URLSearchParams(window.location.search);
+  if (newSearchParams.has(paramName)) {
+    newSearchParams.delete(paramName);
+  } else {
+    newSearchParams.append(paramName, '');
+  }
+
+  const newUrl = new URL(window.location.href);
+  newUrl.search = newSearchParams.toString();
+  window.history.pushState(null, document.title, newUrl);
+}
+
+function hasUrlParam(paramName: string): boolean {
+  const newSearchParams = new URLSearchParams(window.location.search);
+  return newSearchParams.has(paramName);
+}
+
 function parseToArray(commaSeparatedList: string) {
   return commaSeparatedList.split(',');
 }
@@ -28,4 +46,4 @@ function addSelectedRecipeIntoUrl(recipeId: string) {
   addToCommaSeparatedList(previousValue, recipeId);
 }
 
-export { addSelectedRecipeIntoUrl };
+export { addSelectedRecipeIntoUrl, hasUrlParam, toggleUrlParam };

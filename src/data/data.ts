@@ -20,6 +20,7 @@ export type Recipe = {
   tags: Array<string>;
   steps: Steps[];
   selected?: boolean;
+  show?: boolean;
 };
 
 export const data: Recipe[] = [
