@@ -56,6 +56,9 @@ export class HomePage extends LitElement {
   @query('input[name=random]')
   randomCheckbox!: HTMLInputElement;
 
+  @query('input[name=fodmap]')
+  fodmapCheckbox!: HTMLInputElement;
+
   render() {
     return html`
       <h1>Kaalilaatikko.com</h1>
@@ -66,7 +69,12 @@ export class HomePage extends LitElement {
             satunnainen
           </label>
           <label>
-            <input type="checkbox" class="tag" />
+            <input
+              type="checkbox"
+              name="fodmap"
+              class="tag"
+              @click=${() => this.filterByTag('fodmap', this.fodmapCheckbox)}
+            />
             fodmap
           </label>
         </section>
@@ -192,9 +200,24 @@ export class HomePage extends LitElement {
       return copy;
     });
 
-    // this.randomCheckbox.checked = !this.randomCheckbox.checked;
-
     toggleUrlParam('random');
+
+    this.dispatchChanged(recipes);
+  }
+
+  filterByTag(tagName: string, checkbox: HTMLInputElement) {
+    const recipes = this.recipes.map(item => {
+      const copy = { ...item };
+
+      if (item.tags.includes(tagName) || !checkbox.checked) {
+        copy.show = true;
+      } else {
+        copy.show = false;
+      }
+      return copy;
+    });
+
+    toggleUrlParam(tagName);
 
     this.dispatchChanged(recipes);
   }

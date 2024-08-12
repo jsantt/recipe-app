@@ -64,7 +64,7 @@
       "no-unused-vars": "off",
       "@typescript-eslint/no-unused-vars": "error",
       "import/no-unresolved": "off",
-      "no-use-before-define": "off",
+      "no-use-before-defi": "off",
       "import/extensions": [
         "error",
         "always",

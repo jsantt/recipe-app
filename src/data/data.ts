@@ -29,7 +29,7 @@ export const data: Recipe[] = [
     name: 'Bataattikeitto',
     path: '/bataattikeitto',
     portions: 4,
-    tags: [],
+    tags: ['fodmap'],
     steps: [],
   },
   {
