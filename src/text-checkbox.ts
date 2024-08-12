@@ -18,6 +18,9 @@ export class InstructionsTab extends LitElement {
       min-width: 1.5rem;
       margin-right: 1.25rem;
     }
+    ::slotted(a) {
+      text-align: left;
+    }
   `;
 
   render() {

@@ -7,7 +7,7 @@ import { navigateTo, toggleModal } from '../router.js';
 
 import '../shopping-list/shopping-list-modal.js';
 import '../shopping-list/shopping-list-button.js';
-import { hasUrlParam, toggleUrlParam } from '../url.js';
+import { toggleUrlParam } from '../url.js';
 
 @customElement('home-page')
 export class HomePage extends LitElement {
@@ -201,7 +201,7 @@ export class HomePage extends LitElement {
 
   removeSelections(event: Event) {
     event.preventDefault();
-    const recipes = this.recipes.map((recipe: Recipe) => {
+    const recipes = this.recipes?.map((recipe: Recipe) => {
       const copy = { ...recipe };
       copy.selected = false;
       return copy;

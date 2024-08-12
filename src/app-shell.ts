@@ -4,8 +4,7 @@ import { customElement, state } from 'lit/decorators.js';
 import './home-page/home-page.js';
 import './recipe-page/recipe-page.js';
 
-import { getState } from './data/state.js';
-import { Recipe } from './data/data.js';
+import { data, Recipe } from './data/data.js';
 import { getPage, routeChangedEventName } from './router.js';
 
 @customElement('app-shell')
@@ -23,10 +22,11 @@ export class AppShell extends LitElement {
 
   constructor() {
     super();
-    const recipes = getState();
+    const recipes = data;
 
     const searchParams = new URLSearchParams(window.location.search);
 
+    // sync URL param state
     this.recipes = recipes.map((recipe: Recipe) => {
       if (searchParams.get(recipe.id) === null) {
         return recipe;
@@ -36,8 +36,10 @@ export class AppShell extends LitElement {
       return copy;
     });
 
+    // sync url path to state
     this.page = getPage();
 
+    // listen route changes
     window.addEventListener(routeChangedEventName, () => {
       this.page = getPage();
       if (window.location.search.includes('shopping-list')) {

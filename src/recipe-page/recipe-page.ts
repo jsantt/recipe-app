@@ -9,7 +9,7 @@ import '../bottom-bar/bottom-bar-button.js';
 import '../shopping-list/shopping-list-modal.js';
 import '../shopping-list/shopping-list-button.js';
 
-import { navigateBack, navigateTo, toggleModal } from '../router.js';
+import { navigateTo, toggleModal } from '../router.js';
 
 @customElement('recipe-page')
 export class RecipePage extends LitElement {
@@ -53,7 +53,7 @@ export class RecipePage extends LitElement {
   `;
 
   @property({ type: Array })
-  recipes: Recipe[] = [];
+  recipes?: Recipe[] = [];
 
   @property({ type: Boolean })
   modal!: boolean;
