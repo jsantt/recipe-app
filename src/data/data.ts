@@ -30,7 +30,50 @@ export const data: Recipe[] = [
     path: '/bataattikeitto',
     portions: 4,
     tags: ['fodmap'],
-    steps: [],
+    steps: [
+      {
+        instructions: 'Sekoita keskenään kattilassa ja keitä kypsäksi',
+        ingredients: [
+          {
+            amount: 4,
+            name: 'bataattia',
+            how: 'pilkottuna pieneksi (tai bataattisosetta)',
+          },
+          {
+            amount: 2,
+            unit: 'dl',
+            name: 'kookosmaitoa',
+          },
+          {
+            amount: 5,
+            unit: 'rkl',
+            name: 'punaista/keltaista/vihreää currytahnaa',
+          },
+          {
+            amount: 2,
+            unit: 'tl',
+            name: 'sokeria',
+          },
+        ],
+      },
+
+      {
+        instructions: 'Mausta lopuksi',
+        ingredients: [
+          {
+            amount: 2,
+            unit: 'kpl',
+            name: 'limettiä',
+            how: 'purista mehu',
+          },
+          {
+            amount: 1,
+            unit: 'ruukku',
+            name: 'korianteria',
+          },
+        ],
+      },
+    ],
   },
   {
     id: 'ba2',

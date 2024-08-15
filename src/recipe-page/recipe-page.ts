@@ -81,6 +81,10 @@ export class RecipePage extends LitElement {
         ${this.recipe?.steps.map(
           step =>
             html` <h2>${step.heading}</h2>
+              <div class="instructions">
+                <div>${step.instructions}</div>
+              </div>
+
               <div class="step">
                 <div>
                   ${step.ingredients.map(
@@ -93,9 +97,6 @@ export class RecipePage extends LitElement {
                         <input slot="checkbox" type="checkbox" />
                       </text-checkbox>`
                   )}
-                  <div class="instructions">
-                    <div>${step.instructions}</div>
-                  </div>
                 </div>
               </div>`
         )}
