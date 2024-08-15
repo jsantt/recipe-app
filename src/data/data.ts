@@ -1,16 +1,30 @@
+export type Instruction = {
+  instruction: string;
+};
+
+export type Heading = {
+  heading: string;
+};
+
 export type Ingredient = {
   amount: number;
   name: string;
-  unit?: 'g' | 'kpl' | 'dl' | 'rkl' | 'tl' | 'ruukku';
+  unit?: 'g' | 'kpl' | 'dl' | 'rkl' | 'tl' | 'ruukku' | 'annosta';
   how?: string;
   inShoppingList?: boolean;
 };
 
-export type Steps = {
-  heading?: string;
-  ingredients: Ingredient[];
-  instructions: string;
-};
+export function isInstruction(obj: any): obj is Instruction {
+  return obj && typeof obj.Instruction === 'string';
+}
+
+export function isHeading(obj: any): obj is Heading {
+  return obj && typeof obj.heading === 'string';
+}
+
+export function isIngredient(obj: any): obj is Ingredient {
+  return obj && typeof obj.amount === 'number';
+}
 
 export type Recipe = {
   id: string;
@@ -18,12 +32,96 @@ export type Recipe = {
   path: string;
   portions: Number;
   tags: Array<string>;
-  steps: Steps[];
+  steps: (Heading | Instruction | Ingredient)[];
   selected?: boolean;
   show?: boolean;
 };
 
 export const data: Recipe[] = [
+  {
+    id: 'av1',
+    name: 'Avokadopasta',
+    path: '/avokadopasta',
+    portions: 4,
+    tags: ['fodmap'],
+    steps: [
+      {
+        heading: 'Pasta',
+      },
+      {
+        amount: 4,
+        unit: 'annosta',
+        name: 'spaghettia tai pastaa',
+      },
+      {
+        instruction:
+          'Keitä pastapakkauksen ohjeen mukaan. Ota talteen desi pastan keitinvettä',
+      },
+      {
+        heading: 'Kastike',
+      },
+      {
+        amount: 1,
+        name: 'sitruuna',
+      },
+      {
+        amount: 0.5,
+        unit: 'dl',
+        name: 'oliiviöljyä',
+      },
+      {
+        amount: 2,
+        name: 'avokadoa',
+        how: 'tai herneitä tai fetaa tms.',
+      },
+      {
+        amount: 100,
+        unit: 'g',
+        name: 'parmesan-juustoa',
+        how: 'raastettuna tai pieniksi viipaloituna',
+      },
+      {
+        amount: 1,
+        name: 'chili tai ripaus kuivattua chiliä',
+      },
+      {
+        amount: 2,
+        name: 'valkosipulinkynttä',
+      },
+      {
+        amount: 1,
+        unit: 'tl',
+        name: 'suolaa',
+      },
+      {
+        amount: 0.5,
+        unit: 'tl',
+        name: 'pippuria',
+      },
+      {
+        instruction:
+          'Sekoita kastikkeen aineet keskenään. Lisää kypsennetyn pastan joukkoon.',
+      },
+      {
+        heading: 'Tarjoilu',
+      },
+      {
+        amount: 1,
+        unit: 'ruukku',
+        name: 'basilikaa',
+      },
+      {
+        amount: 0.5,
+        unit: 'dl',
+        name: 'pastan keitinlientä',
+      },
+      {
+        instruction:
+          'lisää joukkoon pastan keitinlientä sen verran, että pasta on mehukasta',
+      },
+    ],
+  },
+
   {
     id: 'ba1',
     name: 'Bataattikeitto',
@@ -32,46 +130,41 @@ export const data: Recipe[] = [
     tags: ['fodmap'],
     steps: [
       {
-        instructions: 'Sekoita keskenään kattilassa ja keitä kypsäksi',
-        ingredients: [
-          {
-            amount: 4,
-            name: 'bataattia',
-            how: 'pilkottuna pieneksi (tai bataattisosetta)',
-          },
-          {
-            amount: 2,
-            unit: 'dl',
-            name: 'kookosmaitoa',
-          },
-          {
-            amount: 5,
-            unit: 'rkl',
-            name: 'punaista/keltaista/vihreää currytahnaa',
-          },
-          {
-            amount: 2,
-            unit: 'tl',
-            name: 'sokeria',
-          },
-        ],
+        heading: 'Sekoita keskenään kattilassa ja keitä kypsäksi',
       },
-
       {
-        instructions: 'Mausta lopuksi',
-        ingredients: [
-          {
-            amount: 2,
-            unit: 'kpl',
-            name: 'limettiä',
-            how: 'purista mehu',
-          },
-          {
-            amount: 1,
-            unit: 'ruukku',
-            name: 'korianteria',
-          },
-        ],
+        amount: 4,
+        name: 'bataattia',
+        how: 'pilkottuna pieneksi (tai bataattisosetta)',
+      },
+      {
+        amount: 2,
+        unit: 'dl',
+        name: 'kookosmaitoa',
+      },
+      {
+        amount: 5,
+        unit: 'rkl',
+        name: 'punaista/keltaista/vihreää currytahnaa',
+      },
+      {
+        amount: 2,
+        unit: 'tl',
+        name: 'sokeria',
+      },
+      {
+        heading: 'mausta lopuksi',
+      },
+      {
+        amount: 2,
+        unit: 'kpl',
+        name: 'limettiä',
+        how: 'purista mehu',
+      },
+      {
+        amount: 1,
+        unit: 'ruukku',
+        name: 'korianteria',
       },
     ],
   },
@@ -84,43 +177,44 @@ export const data: Recipe[] = [
     steps: [
       {
         heading: 'Taikina',
-        ingredients: [
-          {
-            amount: 2,
-            name: 'munaa',
-          },
-          {
-            amount: 2,
-            name: 'maitoa',
-            unit: 'dl',
-          },
-          {
-            amount: 50,
-            name: 'sokeria',
-            unit: 'g',
-          },
-          {
-            amount: 5,
-            name: 'suolaa',
-            unit: 'g',
-          },
-          {
-            amount: 200,
-            name: 'jauhoa',
-            unit: 'g',
-          },
-        ],
-        instructions: 'Sekoita ainekset keskenään.',
       },
       {
+        amount: 2,
+        name: 'munaa',
+      },
+      {
+        amount: 2,
+        name: 'maitoa',
+        unit: 'dl',
+      },
+      {
+        amount: 50,
+        name: 'sokeria',
+        unit: 'g',
+      },
+      {
+        amount: 5,
+        name: 'suolaa',
+        unit: 'g',
+      },
+      {
+        amount: 200,
+        name: 'jauhoa',
+        unit: 'g',
+      },
+      {
+        instruction: 'Sekoita ainekset keskenään.',
+      },
+
+      {
         heading: 'Paistaminen',
-        ingredients: [
-          {
-            amount: 2,
-            name: 'banaania',
-          },
-        ],
-        instructions:
+      },
+      {
+        amount: 2,
+        name: 'banaania',
+      },
+      {
+        instruction:
           'Pilko banaanit paistinpannun pohjalle. Kaada taikina päälle. Paista kunnes kypsä.',
       },
     ],
@@ -230,50 +324,48 @@ export const data: Recipe[] = [
     steps: [
       {
         heading: 'Riisi',
-        ingredients: [
-          {
-            amount: 4,
-            unit: 'dl',
-            name: 'riisiä',
-            inShoppingList: false,
-          },
-        ],
-        instructions: 'Huuhtele ja keitä pakkauksen ohjeen mukaan.',
       },
       {
-        ingredients: [
-          {
-            amount: 3,
-            unit: 'rkl',
-            name: 'riisiviinietikkaa',
-            inShoppingList: false,
-          },
-          {
-            amount: 1,
-            unit: 'tl',
-            name: 'suolaa',
-            inShoppingList: false,
-          },
-          {
-            amount: 1.5,
-            unit: 'rkl',
-            name: 'sokeria',
-            inShoppingList: false,
-          },
-        ],
-        instructions: 'Sekoita keskenään ja kaada riisin joukkoon',
+        amount: 4,
+        unit: 'dl',
+        name: 'riisiä',
+        inShoppingList: false,
+      },
+      {
+        instruction: 'Huuhtele ja keitä pakkauksen ohjeen mukaan.',
+      },
+      {
+        amount: 3,
+        unit: 'rkl',
+        name: 'riisiviinietikkaa',
+        inShoppingList: false,
+      },
+      {
+        amount: 1,
+        unit: 'tl',
+        name: 'suolaa',
+        inShoppingList: false,
+      },
+      {
+        amount: 1.5,
+        unit: 'rkl',
+        name: 'sokeria',
+        inShoppingList: false,
+      },
+      {
+        instruction: 'Sekoita keskenään ja kaada riisin joukkoon',
       },
       {
         heading: 'Ponzu',
-        ingredients: [
-          {
-            amount: 4,
-            unit: 'dl',
-            name: 'riisiä',
-            inShoppingList: false,
-          },
-        ],
-        instructions: 'Huuhtele ja keitä pakkauksen ohjeen mukaan.',
+      },
+      {
+        amount: 4,
+        unit: 'dl',
+        name: 'riisiä',
+        inShoppingList: false,
+      },
+      {
+        instruction: 'Huuhtele ja keitä pakkauksen ohjeen mukaan.',
       },
     ],
   },
@@ -366,49 +458,47 @@ export const data: Recipe[] = [
     steps: [
       {
         heading: 'Riisi',
-        ingredients: [
-          {
-            amount: 4,
-            unit: 'dl',
-            name: 'riisiä',
-            inShoppingList: false,
-          },
-        ],
-        instructions: 'Huuhtele ja keitä pakkauksen ohjeen mukaan.',
       },
       {
-        ingredients: [
-          {
-            amount: 3,
-            unit: 'rkl',
-            name: 'riisiviinietikkaa',
-            inShoppingList: false,
-          },
-          {
-            amount: 1,
-            unit: 'tl',
-            name: 'suolaa',
-            inShoppingList: false,
-          },
-          {
-            amount: 1.5,
-            unit: 'rkl',
-            name: 'sokeria',
-            inShoppingList: false,
-          },
-        ],
-        instructions: 'Sekoita keskenään ja kaada riisin joukkoon',
+        amount: 4,
+        unit: 'dl',
+        name: 'riisiä',
+        inShoppingList: false,
+      },
+      {
+        instruction: 'Huuhtele ja keitä pakkauksen ohjeen mukaan.',
+      },
+      {
+        amount: 3,
+        unit: 'rkl',
+        name: 'riisiviinietikkaa',
+        inShoppingList: false,
+      },
+      {
+        amount: 1,
+        unit: 'tl',
+        name: 'suolaa',
+        inShoppingList: false,
+      },
+      {
+        amount: 1.5,
+        unit: 'rkl',
+        name: 'sokeria',
+        inShoppingList: false,
+      },
+      {
+        instruction: 'Sekoita keskenään ja kaada riisin joukkoon',
       },
       {
         heading: 'Ponzu',
-        ingredients: [
-          {
-            amount: 4,
-            unit: 'dl',
-            name: 'riisiä',
-          },
-        ],
-        instructions: 'Huuhtele ja keitä pakkauksen ohjeen mukaan.',
+      },
+      {
+        amount: 4,
+        unit: 'dl',
+        name: 'riisiä',
+      },
+      {
+        instruction: 'Huuhtele ja keitä pakkauksen ohjeen mukaan.',
       },
     ],
   },
@@ -421,79 +511,78 @@ export const data: Recipe[] = [
     steps: [
       {
         heading: 'Kanan maustaminen ja paisto',
-        ingredients: [
-          {
-            amount: 2,
-            unit: 'tl',
-            name: 'inkivääriä',
-            how: 'raastettuna',
-          },
-          {
-            amount: 2,
-            unit: 'tl',
-            name: 'kurkumaa (ei pakollinen, värjää)',
-          },
-          {
-            amount: 2,
-            unit: 'tl',
-            name: 'juustokuminaa',
-          },
-          {
-            amount: 2,
-            unit: 'tl',
-            name: 'paprikajauhetta',
-          },
-          {
-            amount: 1,
-            unit: 'tl',
-            name: 'korianteria',
-          },
-          {
-            amount: 1,
-            unit: 'tl',
-            name: 'garam masala -mausteseosta',
-          },
-          {
-            amount: 1,
-            unit: 'tl',
-            name: 'suolaa',
-          },
 
-          {
-            amount: 3,
-            unit: 'kpl',
-            name: 'valkosipulinkynttä',
-            how: 'raastettuna',
-          },
-          {
-            amount: 1.5,
-            unit: 'dl',
-            name: 'turkkilaista jugurttia',
-          },
-        ],
-        instructions: `Sekoita mausteet jugurttiin ja mausta kanat: Paista kanoja
+        amount: 2,
+        unit: 'tl',
+        name: 'inkivääriä',
+        how: 'raastettuna',
+      },
+      {
+        amount: 2,
+        unit: 'tl',
+        name: 'kurkumaa (ei pakollinen, värjää)',
+      },
+      {
+        amount: 2,
+        unit: 'tl',
+        name: 'juustokuminaa',
+      },
+      {
+        amount: 2,
+        unit: 'tl',
+        name: 'paprikajauhetta',
+      },
+      {
+        amount: 1,
+        unit: 'tl',
+        name: 'korianteria',
+      },
+      {
+        amount: 1,
+        unit: 'tl',
+        name: 'garam masala -mausteseosta',
+      },
+      {
+        amount: 1,
+        unit: 'tl',
+        name: 'suolaa',
+      },
+
+      {
+        amount: 3,
+        unit: 'kpl',
+        name: 'valkosipulinkynttä',
+        how: 'raastettuna',
+      },
+      {
+        amount: 1.5,
+        unit: 'dl',
+        name: 'turkkilaista jugurttia',
+      },
+      {
+        instruction: `Sekoita mausteet jugurttiin ja mausta kanat: Paista kanoja
           250 asteessa grillivastuksilla ylätasolla n. 10 minuuttia. 
           Vaihtoehtoisesti tee pannulla.`,
       },
       {
         heading: 'Kastike',
-        ingredients: [
-          {
-            amount: 1,
-            name: 'sipuli',
-          },
-          {
-            amount: 400,
-            unit: 'g',
-            name: 'kuorittuja tomaatteja',
-          },
-          {
-            amount: 1,
-            unit: 'ruukku',
-            name: 'korianteria',
-          },
-        ],
-        instructions:
+      },
+      {
+        amount: 1,
+        name: 'sipuli',
+      },
+      {
+        amount: 400,
+        unit: 'g',
+        name: 'kuorittuja tomaatteja',
+      },
+      {
+        amount: 1,
+        unit: 'ruukku',
+        name: 'korianteria',
+      },
+      {
+        instruction:
           'Sekoita puolet mausteseoksesta jugurttiin ja mausta kanat',
       },
     ],

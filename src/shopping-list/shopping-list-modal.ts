@@ -1,7 +1,7 @@
 import { LitElement, html, css } from 'lit';
 import { property, customElement } from 'lit/decorators.js';
 import '../bottom-bar/bottom-bar.js';
-import { Recipe } from '../data/data.js';
+import { isIngredient, Recipe } from '../data/data.js';
 import { toggleModal } from '../router.js';
 
 @customElement('shopping-list-modal')
@@ -36,23 +36,21 @@ export class ShoppingListModal extends LitElement {
           .map(
             recipe => html`
               <h2>${recipe.name}</h2>
-              ${recipe.steps.map(
-                step => html`<div>
-                  ${step.ingredients.map(
-                    ingredient =>
-                      html`
+              ${recipe.steps.map(step =>
+                isIngredient(step)
+                  ? html`
                         <text-checkbox>
                           <input slot="checkbox" type="checkbox"></input>
+
                           <div slot="text">
-                            ${ingredient.amount} ${ingredient.unit}
-                            ${ingredient.name}
+                            ${step.amount} ${step.unit}
+                            ${step.name}
                           </div>
                         </text-checkbox>
                       `
-                  )}
-                </div>`
+                  : null
               )}
-            `
+                </div>`
           )}
       </main>
       <bottom-bar>

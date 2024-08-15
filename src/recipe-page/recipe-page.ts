@@ -1,6 +1,11 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
-import { Recipe } from '../data/data.js';
+import {
+  isHeading,
+  isIngredient,
+  isInstruction,
+  Recipe,
+} from '../data/data.js';
 import { getRecipe } from '../data/state.js';
 import '../text-checkbox.js';
 import '../bottom-bar/bottom-bar.js';
@@ -18,6 +23,10 @@ export class RecipePage extends LitElement {
       display: block;
     }
 
+    h2 {
+      font-size: 1.25rem;
+    }
+
     label {
       display: flex;
       justify-content: space-between;
@@ -31,7 +40,7 @@ export class RecipePage extends LitElement {
 
     .step {
       display: grid;
-      grid-template-columns: 99fr 1fr;
+      grid-template-columns: 1fr;
       padding: 0.25rem 0;
     }
 
@@ -49,6 +58,10 @@ export class RecipePage extends LitElement {
     .instructions {
       margin-top: 1rem;
       font-weight: 600;
+    }
+
+    main {
+      margin-bottom: 6rem;
     }
   `;
 
@@ -80,25 +93,18 @@ export class RecipePage extends LitElement {
       <main>
         ${this.recipe?.steps.map(
           step =>
-            html` <h2>${step.heading}</h2>
-              <div class="instructions">
-                <div>${step.instructions}</div>
-              </div>
-
-              <div class="step">
-                <div>
-                  ${step.ingredients.map(
-                    ingredient =>
-                      html`<text-checkbox>
-                        <div slot="text">
-                          ${ingredient.amount} ${ingredient.unit}
-                          ${ingredient.name}
-                        </div>
-                        <input slot="checkbox" type="checkbox" />
-                      </text-checkbox>`
-                  )}
-                </div>
-              </div>`
+            html`<div class="step">
+              ${isHeading(step) ? html` <h2>${step.heading}</h2>` : null}
+              ${isInstruction(step) ? html` <p>${step.instruction}</p>` : null}
+              ${isIngredient(step)
+                ? html` <text-checkbox>
+                    <div slot="text">
+                      ${step.amount} ${step.unit} ${step.name}
+                    </div>
+                    <input slot="checkbox" type="checkbox" />
+                  </text-checkbox>`
+                : null}
+            </div>`
         )}
       </main>
       <shopping-list-button
