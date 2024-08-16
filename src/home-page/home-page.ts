@@ -59,11 +59,22 @@ export class HomePage extends LitElement {
   @query('input[name=fodmap]')
   fodmapCheckbox!: HTMLInputElement;
 
+  @query('input[name=ready]')
+  readyCheckbox!: HTMLInputElement;
+
   render() {
     return html`
       <h1>Kaalilaatikko.com</h1>
       <main>
         <section class="tags">
+          <label>
+            <input
+              type="checkbox"
+              name="ready"
+              @click=${() => this.filterByReadyness(this.readyCheckbox)}
+            />
+            valmiit
+          </label>
           <label>
             <input type="checkbox" name="random" @click=${this.toggleRandom} />
             satunnainen
@@ -201,6 +212,23 @@ export class HomePage extends LitElement {
     });
 
     toggleUrlParam('random');
+
+    this.dispatchChanged(recipes);
+  }
+
+  filterByReadyness(checkbox: HTMLInputElement) {
+    const recipes = this.recipes.map(item => {
+      const copy = { ...item };
+
+      if (item.steps.length > 0 || !checkbox.checked) {
+        copy.show = true;
+      } else {
+        copy.show = false;
+      }
+      return copy;
+    });
+
+    toggleUrlParam('ready');
 
     this.dispatchChanged(recipes);
   }
