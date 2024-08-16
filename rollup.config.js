@@ -13,7 +13,7 @@ export default {
     chunkFileNames: '[hash].js',
     assetFileNames: '[hash][extname]',
     format: 'es',
-    dir: 'dist',
+    dir: 'docs',
   },
   preserveEntrySignatures: false,
 
@@ -30,7 +30,7 @@ export default {
     esbuild({
       minify: true,
       target: ['chrome64', 'firefox67', 'safari11.1'],
-    }),    
+    }),
     /** Bundle assets references via import.meta.url */
     importMetaAssets(),
     /** Minify html and css tagged template literals */
