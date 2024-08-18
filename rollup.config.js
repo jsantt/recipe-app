@@ -24,7 +24,7 @@ export default {
     html({
       minify: true,
       injectServiceWorker: true,
-      serviceWorkerPath: `${outputPath}/sw.js`,
+      serviceWorkerPath: `${outputPath}/recipe-app/sw.js`,
     }),
     /** Resolve bare module imports */
     nodeResolve(),
