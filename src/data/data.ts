@@ -14,8 +14,12 @@ export type Ingredient = {
   inShoppingList?: boolean;
 };
 
+export type Step = {
+  step: Heading | Instruction | Ingredient;
+};
+
 export function isInstruction(obj: any): obj is Instruction {
-  return obj && typeof obj.Instruction === 'string';
+  return true;
 }
 
 export function isHeading(obj: any): obj is Heading {
@@ -70,17 +74,6 @@ export const data: Recipe[] = [
         name: 'oliiviöljyä',
       },
       {
-        amount: 2,
-        name: 'avokadoa',
-        how: 'tai herneitä tai fetaa tms.',
-      },
-      {
-        amount: 100,
-        unit: 'g',
-        name: 'parmesan-juustoa',
-        how: 'raastettuna tai pieniksi viipaloituna',
-      },
-      {
         amount: 1,
         name: 'chili tai ripaus kuivattua chiliä',
       },
@@ -94,7 +87,7 @@ export const data: Recipe[] = [
         name: 'suolaa',
       },
       {
-        amount: 0.5,
+        amount: 0.25,
         unit: 'tl',
         name: 'pippuria',
       },
@@ -104,6 +97,17 @@ export const data: Recipe[] = [
       },
       {
         heading: 'Tarjoilu',
+      },
+      {
+        amount: 100,
+        unit: 'g',
+        name: 'parmesan-juustoa',
+        how: 'raastettuna tai pieniksi viipaloituna',
+      },
+      {
+        amount: 2,
+        name: 'avokadoa',
+        how: 'tai herneitä tai fetaa tms.',
       },
       {
         amount: 1,
