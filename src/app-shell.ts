@@ -52,7 +52,7 @@ export class AppShell extends LitElement {
 
   render() {
     if (this.page === 'home') {
-      return html`${this.modal}<home-page
+      return html`<home-page
           .modal=${this.modal === 'shopping-list'}
           .recipes=${this.recipes}
           @recipes-changed=${(event: { detail: Recipe[] }) => {

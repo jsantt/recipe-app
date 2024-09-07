@@ -7,6 +7,8 @@ import { navigateTo, toggleModal } from '../router.js';
 
 import '../shopping-list/shopping-list-modal.js';
 import '../shopping-list/shopping-list-button.js';
+import '../text-checkbox.js';
+import '../choice-chip.js';
 import { toggleUrlParam } from '../url.js';
 
 @customElement('home-page')
@@ -23,13 +25,32 @@ export class HomePage extends LitElement {
       font-weight: 400;
     }
 
-    main {
-      max-width: 25rem;
+    h1 {
+      margin: 0.5rem 0;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 0.5rem;
     }
 
     .tags {
-      margin-top: 1rem;
+      margin-top: 2rem;
       margin-bottom: 1rem;
+
+      padding: 0.5rem;
+
+      color: white;
+      line-height: 2;
+      display: flex;
+    }
+
+    label {
+      display: flex;
+
+      align-items: center;
+    }
+
+    input[type='checkbox'] {
+      width: 1.25rem;
+      height: 1.25rem;
     }
 
     label {
@@ -53,48 +74,51 @@ export class HomePage extends LitElement {
   @property({ type: Boolean })
   modal!: boolean;
 
-  @query('input[name=random]')
-  randomCheckbox!: HTMLInputElement;
+  @query('[id=random]')
+  randomCheckbox!: HTMLElement;
 
-  @query('input[name=fodmap]')
-  fodmapCheckbox!: HTMLInputElement;
+  @query('[id=fodmap]')
+  fodmapCheckbox!: HTMLElement;
 
-  @query('input[name=ready]')
-  readyCheckbox!: HTMLInputElement;
+  @query('[id=ready]')
+  readyCheckbox!: HTMLElement;
 
   render() {
     return html`
       <h1>Kaalilaatikko.com</h1>
       <main>
         <section class="tags">
-          <label>
-            <input
-              type="checkbox"
-              name="ready"
-              @click=${() => this.filterByReadyness(this.readyCheckbox)}
-            />
+          <choice-chip
+            green
+            id="ready"
+            @click=${() => this.filterByReadyness(this.readyCheckbox)}
+          >
             valmiit
-          </label>
-          <label>
-            <input type="checkbox" name="random" @click=${this.toggleRandom} />
+          </choice-chip>
+          <choice-chip green id="random" @click=${this.toggleRandom}>
             satunnainen
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              name="fodmap"
-              class="tag"
-              @click=${() => this.filterByTag('fodmap', this.fodmapCheckbox)}
-            />
+          </choice-chip>
+          <choice-chip
+            id="fodmap"
+            @click=${() => this.filterByTag('fodmap', this.fodmapCheckbox)}
+          >
             fodmap
-          </label>
+          </choice-chip>
         </section>
         <ul>
           ${this.recipes
             .filter(recipe => recipe.show !== false)
             .map(
               recipe => html` <li>
-                <text-checkbox>
+                <label>
+                  <input
+                    slot="checkbox"
+                    type="checkbox"
+                    ?checked=${recipe.selected === true}
+                    name=${recipe.id}
+                    .value=${recipe.path}
+                    @change=${() => this.recipeClicked(recipe)}
+                  />
                   <a
                     slot="text"
                     href=${recipe.path}
@@ -104,15 +128,7 @@ export class HomePage extends LitElement {
                     }}
                     >${recipe.name}
                   </a>
-                  <input
-                    slot="checkbox"
-                    type="checkbox"
-                    ?checked=${recipe.selected === true}
-                    name=${recipe.id}
-                    .value=${recipe.path}
-                    @change=${() => this.recipeClicked(recipe)}
-                  />
-                </text-checkbox>
+                </label>
               </li>`
             )}
         </ul>
@@ -130,7 +146,7 @@ export class HomePage extends LitElement {
         <bottom-bar-button
           middle
           @click=${() => {
-            this.randomCheckbox.checked = true;
+            // this.randomCheckbox.setAttribute('selected', '') = true;
             this.toggleRandom();
           }}
           ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
@@ -203,7 +219,7 @@ export class HomePage extends LitElement {
     const recipes = this.recipes.map((item, index: number) => {
       const copy = { ...item };
 
-      if (index === random || !this.randomCheckbox.checked) {
+      if (index === random || !this.randomCheckbox.hasAttribute('selected')) {
         copy.show = true;
       } else {
         copy.show = false;
@@ -216,11 +232,11 @@ export class HomePage extends LitElement {
     this.dispatchChanged(recipes);
   }
 
-  filterByReadyness(checkbox: HTMLInputElement) {
+  filterByReadyness(checkbox: HTMLElement) {
     const recipes = this.recipes.map(item => {
       const copy = { ...item };
 
-      if (item.steps.length > 0 || !checkbox.checked) {
+      if (item.steps.length > 0 || !checkbox.hasAttribute('selected')) {
         copy.show = true;
       } else {
         copy.show = false;
@@ -233,11 +249,11 @@ export class HomePage extends LitElement {
     this.dispatchChanged(recipes);
   }
 
-  filterByTag(tagName: string, checkbox: HTMLInputElement) {
+  filterByTag(tagName: string, checkbox: HTMLElement) {
     const recipes = this.recipes.map(item => {
       const copy = { ...item };
 
-      if (item.tags.includes(tagName) || !checkbox.checked) {
+      if (item.tags.includes(tagName) || !checkbox.hasAttribute('selected')) {
         copy.show = true;
       } else {
         copy.show = false;

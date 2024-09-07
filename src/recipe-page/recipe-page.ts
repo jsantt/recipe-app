@@ -24,7 +24,8 @@ export class RecipePage extends LitElement {
     }
 
     h2 {
-      font-size: 1.25rem;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 0.5rem;
     }
 
     label {
@@ -36,16 +37,6 @@ export class RecipePage extends LitElement {
 
     label:has(input:checked) {
       opacity: 0.4;
-    }
-
-    .step {
-      display: grid;
-      grid-template-columns: 1fr;
-      padding: 0.25rem 0;
-    }
-
-    .step__done {
-      align-self: center;
     }
 
     .ingredient {
@@ -62,6 +53,11 @@ export class RecipePage extends LitElement {
 
     main {
       margin-bottom: 6rem;
+    }
+
+    p {
+      margin: 0;
+      padding: 0;
     }
   `;
 

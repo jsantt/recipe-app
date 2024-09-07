@@ -18,15 +18,16 @@ export class ShoppingListButton extends LitElement {
       top: 80vh;
       bottom: 0;
 
-      background-color: white;
-      --border: 2px solid black;
+      background-color: var(--color-blue);
+      color: white;
+      fill: white;
       border-top: var(--border);
       border-bottom: var(--border);
       border-left: var(--border);
-      height: 4rem;
-      width: 2rem;
+      height: 6rem;
+      width: 2.5rem;
 
-      padding: 0.25rem;
+      padding: 0.5rem;
       text-align: center;
 
       z-index: 1;

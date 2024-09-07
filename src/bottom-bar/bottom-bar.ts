@@ -16,8 +16,6 @@ export class BottomBar extends LitElement {
 
     nav {
       border-top: 1px solid grey;
-
-      background: white;
       position: fixed;
       bottom: 0;
       left: 0;
@@ -26,7 +24,7 @@ export class BottomBar extends LitElement {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
       grid-template-rows: auto;
-      max-width: 500px;
+      max-width: 50rem;
       margin: 0px auto;
     }
 

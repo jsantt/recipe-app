@@ -5,34 +5,41 @@ import { customElement } from 'lit/decorators.js';
 export class BottomBarButton extends LitElement {
   static styles = css`
     button {
-      background: none;
+      background-color: var(--color-grey);
+      color: white;
+
       border: none;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: flex-end;
       height: 100%;
+
+      line-height: 1.5;
       text-align: center;
       margin: 0px auto;
       touch-action: manipulation;
       width: 100%;
-      padding: 0.5rem 0.5rem 0.25rem 0.5rem;
+      padding: 0.75rem 0.5rem 0.5rem 0.5rem;
     }
     ::slotted(svg) {
+      fill: white;
       width: 1.5rem;
       height: 1.5rem;
     }
 
     :host([middle]) button {
       position: relative;
-    }
 
+      stroke-width: 10px;
+      stroke: #555;
+    }
 
     :host([middle]) ::slotted(svg) {
       width: 4rem;
       height: 4rem;
       position: absolute;
-      bottom: 1rem;
+      bottom: 1.25rem;
     }
   `;
 

@@ -19,8 +19,21 @@ export class ShoppingListModal extends LitElement {
       bottom: 0;
       left: 0;
 
-      background: lightblue;
+      background: var(--color-black);
       padding: 1rem;
+
+      max-width: 50rem;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    h2 {
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 0.5rem;
+    }
+
+    section {
+      display: flex;
+      flex-wrap: wrap;
     }
   `;
 
@@ -36,6 +49,7 @@ export class ShoppingListModal extends LitElement {
           .map(
             recipe => html`
               <h2>${recipe.name}</h2>
+              <section>
               ${recipe.steps.map(step =>
                 isIngredient(step)
                   ? html`
@@ -52,6 +66,7 @@ export class ShoppingListModal extends LitElement {
               )}
                 </div>`
           )}
+          </section>
       </main>
       <bottom-bar>
         <bottom-bar-button></bottom-bar-button>
