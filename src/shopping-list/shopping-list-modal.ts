@@ -13,18 +13,24 @@ export class ShoppingListModal extends LitElement {
 
   static styles = css`
     :host([open]) {
+      background: var(--color-blue);
+ 
+
+      display: block;
+
       position: fixed;
       top: 0;
       right: 0;
       bottom: 0;
-      left: 0;
 
-      background: var(--color-black);
       padding: 1rem;
 
-      max-width: 50rem;
+      max-width: 25rem;
+      max-height: 95vh;
       margin-left: auto;
       margin-right: auto;
+
+      overflow-y: auto;
     }
     h2 {
       border-bottom: 1px solid #ccc;

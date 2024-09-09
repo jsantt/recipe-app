@@ -47,8 +47,9 @@ export class HomePage extends LitElement {
     }
 
     input[type='checkbox'] {
-      width: 1.25rem;
-      height: 1.25rem;
+      width: 1.5rem;
+      height: 1.5rem;
+      margin-right: 1rem;
     }
 
     label {

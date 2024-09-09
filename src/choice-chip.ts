@@ -20,6 +20,7 @@ export class InstructionsTab extends LitElement {
       background: #ccc;
       border-radius: 2rem;
       color: var(--color-black);
+      cursor: pointer;
 
       display: flex;
       align-items: center;
