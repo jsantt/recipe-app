@@ -25,21 +25,19 @@ export class HomePage extends LitElement {
       font-weight: 400;
     }
 
-    h1 {
-      margin: 0.5rem 0;
-      border-bottom: 1px solid #ccc;
-      padding-bottom: 0.5rem;
+    main {
+      margin: 0;
     }
 
     .tags {
+      display: grid;
+      grid-gap: 0.5rem;
+      grid-template-columns: auto;
+
       margin-top: 2rem;
       margin-bottom: 1rem;
-
-      padding: 0.5rem;
-
       color: white;
       line-height: 2;
-      display: flex;
     }
 
     label {
@@ -54,7 +52,7 @@ export class HomePage extends LitElement {
     }
 
     label {
-      margin: 0.5rem 1rem;
+      margin: 0.5rem 0;
     }
 
     ul {
@@ -89,6 +87,7 @@ export class HomePage extends LitElement {
       <main>
         <section class="tags">
           <choice-chip
+            selected
             green
             id="ready"
             @click=${() => this.filterByReadyness(this.readyCheckbox)}

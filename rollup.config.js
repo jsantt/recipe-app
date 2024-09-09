@@ -6,8 +6,6 @@ import esbuild from 'rollup-plugin-esbuild';
 import { generateSW } from 'rollup-plugin-workbox';
 import path from 'path';
 
-const outputPath = 'dist';
-
 export default {
   input: 'index.html',
   output: {
@@ -15,7 +13,7 @@ export default {
     chunkFileNames: '[hash].js',
     assetFileNames: '[hash][extname]',
     format: 'es',
-    dir: outputPath,
+    dir: 'dist',
   },
   preserveEntrySignatures: false,
 
@@ -24,7 +22,7 @@ export default {
     html({
       minify: true,
       injectServiceWorker: true,
-      serviceWorkerPath: `${outputPath}/recipe-app/sw.js`,
+      serviceWorkerPath: `dist/recipe-app/sw.js`,
     }),
     /** Resolve bare module imports */
     nodeResolve(),
@@ -60,9 +58,9 @@ export default {
       globIgnores: ['polyfills/*.js', 'nomodule-*.js'],
       navigateFallback: '/index.html',
       // where to output the generated sw
-      swDest: path.join(outputPath, 'sw.js'),
+      swDest: path.join('dist', 'sw.js'),
       // directory to match patterns against to be precached
-      globDirectory: path.join(outputPath),
+      globDirectory: path.join('dist'),
       // cache any html js and css by default
       globPatterns: ['**/*.{html,js,css,webmanifest}'],
       skipWaiting: true,

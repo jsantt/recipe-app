@@ -21,7 +21,8 @@
         --color-grey: #363a36;
         --color-blue: rgb(81, 104, 246);
 
-        font-family: Garamond;
+        --font-family: 'Roboto', sans-serif;
+        font-family: var(--font-family);
       }
 
       html,
@@ -34,8 +35,6 @@
         margin-left: auto;
         margin-right: auto;
 
-        padding: 0.5rem;
-        font-family: sans-serif;
         font-size: 16px;
       }
     </style>
@@ -43,6 +42,25 @@
   </head>
 
   <body>
+    <!-- Load web fonts asynchronously -->
+    <script>
+      window.WebFontConfig = {
+        google: {
+          families: ['Roboto:300'],
+        },
+      };
+
+      (d => {
+        const wf = d.createElement('script');
+        const s = d.scripts[0];
+        wf.rel = 'preconnect';
+        wf.src =
+          'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js?display=swap';
+        wf.async = true;
+        s.parentNode.insertBefore(wf, s);
+      })(document);
+    </script>
+
     <app-shell></app-shell>
 
     <script type="module" src="./out-tsc/src/app-shell.js"></script>

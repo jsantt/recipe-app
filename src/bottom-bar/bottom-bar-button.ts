@@ -8,6 +8,8 @@ export class BottomBarButton extends LitElement {
       background-color: var(--color-grey);
       color: white;
 
+      font-family: var(--font-family);
+
       border: none;
       display: flex;
       flex-direction: column;
