@@ -22,7 +22,7 @@ export default {
     html({
       minify: true,
       injectServiceWorker: true,
-      serviceWorkerPath: `dist/recipe-app/sw.js`,
+      serviceWorkerPath: `dist/sw.js`,
     }),
     /** Resolve bare module imports */
     nodeResolve(),
