@@ -15,7 +15,7 @@ export class ShoppingListButton extends LitElement {
     button {
       position: fixed;
       right: 0;
-      top: 80vh;
+      top: 70vh;
       bottom: 0;
 
       background-color: var(--color-blue);
