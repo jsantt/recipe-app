@@ -63,14 +63,12 @@ export class HomePage extends LitElement {
 
     li {
       list-style-type: none;
+      text-align: left;
     }
   `;
 
   @property({ type: Array })
   recipes: Recipe[] = [];
-
-  @property({ type: Boolean })
-  modal!: boolean;
 
   @query('[id=random]')
   randomCheckbox!: HTMLElement;
