@@ -106,7 +106,7 @@ export class RecipePage extends LitElement {
       <shopping-list-button
         .recipes=${this.recipes}
         @click=${() => {
-          toggleModal('shopping-list');
+          navigateTo('shopping-list');
         }}
       ></shopping-list-button>
       <bottom-bar>

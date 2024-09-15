@@ -1,6 +1,10 @@
 const routeChangedEventName = 'route-url-changed';
 
-function getPage() {
+function getPage(): 'home' | 'recipe' | 'shopping-list' {
+  if (window.location.pathname === '/shopping-list') {
+    return 'shopping-list';
+  }
+
   if (window.location.pathname !== '/') {
     return 'recipe';
   }
@@ -12,8 +16,8 @@ function navigateTo(path: string) {
   const newUrl = new URL(window.location.href);
   newUrl.pathname = path;
   window.history.pushState(null, document.title, newUrl);
- 
-  dispatchRouteChanged()
+
+  dispatchRouteChanged();
 }
 
 function navigateBack() {

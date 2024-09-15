@@ -170,7 +170,7 @@ export class HomePage extends LitElement {
       <shopping-list-button
         .recipes=${this.recipes}
         @click=${() => {
-          toggleModal('shopping-list');
+          navigateTo('shopping-list');
         }}
       ></shopping-list-button>
       <shopping-list-modal

@@ -15,7 +15,7 @@ export class AppShell extends LitElement {
   recipes: Recipe[];
 
   @state()
-  page: 'home' | 'recipe' = 'home';
+  page: 'home' | 'recipe' | 'shopping-list' = 'home';
 
   @state()
   modal?: 'shopping-list';
@@ -42,24 +42,28 @@ export class AppShell extends LitElement {
     // listen route changes
     window.addEventListener(routeChangedEventName, () => {
       this.page = getPage();
-      if (window.location.search.includes('shopping-list')) {
-        this.modal = 'shopping-list';
-      } else {
-        this.modal = undefined;
-      }
     });
   }
 
   render() {
     if (this.page === 'home') {
       return html`<home-page
-          .modal=${this.modal === 'shopping-list'}
-          .recipes=${this.recipes}
-          @recipes-changed=${(event: { detail: Recipe[] }) => {
-            this.recipes = event.detail;
-          }}
-        ></home-page>`;
+        .recipes=${this.recipes}
+        @recipes-changed=${(event: { detail: Recipe[] }) => {
+          this.recipes = event.detail;
+        }}
+      ></home-page>`;
     }
+
+    if (this.page === 'shopping-list') {
+      return html`<shopping-list-modal
+        .recipes=${this.recipes}
+        @recipes-changed=${(event: { detail: Recipe[] }) => {
+          this.recipes = event.detail;
+        }}
+      ></shopping-list-modal>`;
+    }
+
 
     return html`<recipe-page
       .modal=${this.modal === 'shopping-list'}
