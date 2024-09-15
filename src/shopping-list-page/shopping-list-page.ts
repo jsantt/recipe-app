@@ -4,7 +4,7 @@ import '../bottom-bar/bottom-bar.js';
 import { isIngredient, Recipe } from '../data/data.js';
 import { navigateTo } from '../router.js';
 
-@customElement('shopping-list-modal')
+@customElement('shopping-list-page')
 export class ShoppingListModal extends LitElement {
   @property({ type: Array })
   recipes: Recipe[] = [];

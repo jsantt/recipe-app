@@ -3,6 +3,7 @@ import { customElement, state } from 'lit/decorators.js';
 
 import './home-page/home-page.js';
 import './recipe-page/recipe-page.js';
+import './shopping-list-page/shopping-list-page.js';
 
 import { data, Recipe } from './data/data.js';
 import { getPage, routeChangedEventName } from './router.js';
@@ -56,14 +57,13 @@ export class AppShell extends LitElement {
     }
 
     if (this.page === 'shopping-list') {
-      return html`<shopping-list-modal
+      return html`<shopping-list-page
         .recipes=${this.recipes}
         @recipes-changed=${(event: { detail: Recipe[] }) => {
           this.recipes = event.detail;
         }}
-      ></shopping-list-modal>`;
+      ></shopping-list-page>`;
     }
-
 
     return html`<recipe-page
       .modal=${this.modal === 'shopping-list'}

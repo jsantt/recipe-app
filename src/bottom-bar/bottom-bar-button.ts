@@ -41,7 +41,7 @@ export class BottomBarButton extends LitElement {
       width: 4rem;
       height: 4rem;
       position: absolute;
-      bottom: 1.25rem;
+      bottom: 1.75rem;
     }
   `;
 

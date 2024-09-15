@@ -3,10 +3,9 @@ import { customElement, property, query } from 'lit/decorators.js';
 import { Recipe } from '../data/data.js';
 import '../bottom-bar/bottom-bar.js';
 import '../bottom-bar/bottom-bar-button.js';
-import { navigateTo, toggleModal } from '../router.js';
+import { navigateTo } from '../router.js';
 
-import '../shopping-list/shopping-list-modal.js';
-import '../shopping-list/shopping-list-button.js';
+import '../shopping-list-page/shopping-list-button.js';
 import '../text-checkbox.js';
 import '../choice-chip.js';
 import { toggleUrlParam } from '../url.js';
@@ -173,10 +172,6 @@ export class HomePage extends LitElement {
           navigateTo('shopping-list');
         }}
       ></shopping-list-button>
-      <shopping-list-modal
-        .recipes=${this.recipes}
-        ?open=${this.modal}
-      ></shopping-list-modal>
     `;
   }
 
