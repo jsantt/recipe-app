@@ -1,15 +1,18 @@
 const routeChangedEventName = 'route-url-changed';
 
 function getPage(): 'home' | 'recipe' | 'shopping-list' {
-  if (window.location.pathname === '/shopping-list') {
+  if (window.location.pathname.includes('/shopping-list')) {
     return 'shopping-list';
   }
 
-  if (window.location.pathname !== '/') {
-    return 'recipe';
+  if (
+    window.location.pathname === '/' ||
+    window.location.pathname === '/recipe-app/'
+  ) {
+    return 'home';
   }
 
-  return 'home';
+  return 'recipe';
 }
 
 function navigateTo(path: string) {
