@@ -7,10 +7,12 @@ import {
   Recipe,
 } from '../data/data.js';
 import { getRecipe } from '../data/state.js';
+
 import '../text-checkbox.js';
 import '../bottom-bar/bottom-bar.js';
 import '../bottom-bar/bottom-bar-button.js';
 
+import '../choice-chip.js';
 import '../shopping-list-page/shopping-list-button.js';
 
 import { navigateTo } from '../router.js';
@@ -54,6 +56,10 @@ export class RecipePage extends LitElement {
       margin-bottom: 6rem;
     }
 
+    choice-chip {
+      margin-bottom: 0.5rem;
+    }
+
     p {
       margin: 0;
       padding: 0;
@@ -92,12 +98,9 @@ export class RecipePage extends LitElement {
               ${isHeading(step) ? html` <h2>${step.heading}</h2>` : null}
               ${isInstruction(step) ? html` <p>${step.instruction}</p>` : null}
               ${isIngredient(step)
-                ? html` <text-checkbox>
-                    <div slot="text">
-                      ${step.amount} ${step.unit} ${step.name}
-                    </div>
-                    <input slot="checkbox" type="checkbox" />
-                  </text-checkbox>`
+                ? html` <choice-chip>
+                    ${step.amount} ${step.unit} ${step.name}
+                  </choice-chip>`
                 : null}
             </div>`
         )}

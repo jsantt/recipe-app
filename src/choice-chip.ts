@@ -12,6 +12,8 @@ export class InstructionsTab extends LitElement {
     }
     :host([selected]) button {
       background: rgb(152, 208, 195);
+      padding-right: 0.5rem;
+      padding-left: 0.5rem;
     }
 
     button {
@@ -25,8 +27,9 @@ export class InstructionsTab extends LitElement {
       display: flex;
       align-items: center;
       font-size: 1rem;
+      line-height: 1;
 
-      padding: 0.062rem 0.5rem;
+      padding: 0.375rem 1rem;
     }
 
     :host([selected]) svg {
@@ -36,7 +39,7 @@ export class InstructionsTab extends LitElement {
     svg {
       display: none;
       padding-right: 0.25rem;
-      width: 1rem;
+      width: 0.75rem;
     }
   `;
 

@@ -1,8 +1,10 @@
 import { LitElement, html, css } from 'lit';
 import { property, customElement } from 'lit/decorators.js';
-import '../bottom-bar/bottom-bar.js';
 import { isIngredient, Recipe } from '../data/data.js';
 import { navigateTo } from '../router.js';
+
+import '../bottom-bar/bottom-bar.js';
+import '../choice-chip.js';
 
 @customElement('shopping-list-page')
 export class ShoppingListModal extends LitElement {
@@ -18,6 +20,7 @@ export class ShoppingListModal extends LitElement {
     section {
       display: flex;
       flex-wrap: wrap;
+      gap: 0.5rem;
     }
   `;
 
@@ -28,24 +31,18 @@ export class ShoppingListModal extends LitElement {
         ${this.recipes
           ?.filter((recipe: Recipe) => recipe.selected)
           .map(
-            recipe => html`
-              <h2>${recipe.name}</h2>
+            recipe => html` <h2>${recipe.name}</h2>
               <section>
-              ${recipe.steps.map(step =>
-                isIngredient(step)
-                  ? html`
-                        <text-checkbox>
-                          <input slot="checkbox" type="checkbox"></input>
-
-                          <div slot="text">
-                            ${step.amount} ${step.unit}
-                            ${step.name}
-                          </div>
-                        </text-checkbox>
+                ${recipe.steps.map(step =>
+                  isIngredient(step)
+                    ? html`
+                        <choice-chip>
+                          ${step.amount} ${step.unit} ${step.name}
+                        </choice-chip>
                       `
-                  : null
-              )}
-                </div>`
+                    : null
+                )}
+              </section>`
           )}
           </section>
       </main>

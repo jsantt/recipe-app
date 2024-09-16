@@ -29,12 +29,13 @@ export class HomePage extends LitElement {
     }
 
     .tags {
-      display: grid;
-      grid-gap: 0.5rem;
-      grid-template-columns: auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
 
+      /* grid-template-columns: auto; */
       margin-top: 2rem;
-      margin-bottom: 1rem;
+      margin-bottom: 2rem;
       color: white;
       line-height: 2;
     }

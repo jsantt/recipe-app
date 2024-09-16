@@ -28,6 +28,7 @@ export class BottomBarButton extends LitElement {
       fill: white;
       width: 1.5rem;
       height: 1.5rem;
+      stroke: var(--color-grey);
     }
 
     :host([middle]) button {
