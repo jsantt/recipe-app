@@ -7,9 +7,21 @@ export type Heading = {
 };
 
 export type Ingredient = {
-  amount: number;
   name: string;
-  unit?: 'g' | 'kpl' | 'dl' | 'rkl' | 'tl' | 'ruukku' | 'annosta';
+  amount?: number;
+  unit?:
+    | 'g'
+    | 'kpl'
+    | 'dl'
+    | 'l'
+    | 'rkl'
+    | 'tl'
+    | 'ruukku'
+    | 'annosta'
+    | 'ripaus'
+    | 'purkki'
+    | 'tölkki'
+    | 'paketti';
   how?: string;
   inShoppingList?: boolean;
 };
@@ -19,7 +31,7 @@ export type Step = {
 };
 
 export function isInstruction(obj: any): obj is Instruction {
-  return true;
+  return obj && typeof obj.instruction === 'string';
 }
 
 export function isHeading(obj: any): obj is Heading {
@@ -27,7 +39,7 @@ export function isHeading(obj: any): obj is Heading {
 }
 
 export function isIngredient(obj: any): obj is Ingredient {
-  return obj && typeof obj.amount === 'number';
+  return obj && typeof obj.name === 'string';
 }
 
 export type Recipe = {
@@ -59,7 +71,7 @@ export const data: Recipe[] = [
       },
       {
         instruction:
-          'Keitä pastapakkauksen ohjeen mukaan. Ota talteen desi pastan keitinvettä',
+          'Keitä pastapakkauksen ohjeen mukaan. Ota talteen desi pastan keitinvettä.',
       },
       {
         heading: 'Kastike',
@@ -91,6 +103,7 @@ export const data: Recipe[] = [
         unit: 'tl',
         name: 'pippuria',
       },
+
       {
         instruction:
           'Sekoita kastikkeen aineet keskenään. Lisää kypsennetyn pastan joukkoon.',
@@ -114,15 +127,6 @@ export const data: Recipe[] = [
         unit: 'ruukku',
         name: 'basilikaa',
       },
-      {
-        amount: 0.5,
-        unit: 'dl',
-        name: 'pastan keitinlientä',
-      },
-      {
-        instruction:
-          'lisää joukkoon pastan keitinlientä sen verran, että pasta on mehukasta',
-      },
     ],
   },
 
@@ -134,7 +138,7 @@ export const data: Recipe[] = [
     tags: ['fodmap'],
     steps: [
       {
-        heading: 'Sekoita keskenään kattilassa ja keitä kypsäksi',
+        instruction: 'Sekoita keskenään kattilassa ja keitä kypsäksi.',
       },
       {
         amount: 4,
@@ -157,7 +161,7 @@ export const data: Recipe[] = [
         name: 'sokeria',
       },
       {
-        heading: 'mausta lopuksi',
+        instruction: 'Ota pois liedeltä ja lisää juuri ennen tarjoilua.',
       },
       {
         amount: 2,
@@ -259,9 +263,37 @@ export const data: Recipe[] = [
     id: 'ka2',
     name: 'Kalakeitto',
     path: '/kalakeitto',
-    portions: 4,
+    portions: 8,
     tags: [],
-    steps: [],
+    steps: [
+      {
+        name: 'perunoita',
+      },
+      {
+        name: 'porkkanaa',
+      },
+      {
+        name: 'lohta',
+      },
+      {
+        amount: 1.8,
+        unit: 'l',
+        name: 'vettä',
+      },
+      {
+        amount: 4,
+        name: 'kalaliemikuutiota',
+      },
+      {
+        name: 'kaurakerma',
+      },
+      {
+        name: 'tilliä',
+      },
+      {
+        name: 'sitruunaa',
+      },
+    ],
   },
   {
     id: 'ma1',
@@ -285,7 +317,29 @@ export const data: Recipe[] = [
     path: '/hotdog',
     portions: 4,
     tags: [],
-    steps: [],
+    steps: [
+      {
+        unit: 'paketti',
+        name: 'hot dog -sämpylöitä',
+      },
+      {
+        unit: 'paketti',
+        name: 'nakkeja',
+      },
+      { instruction: 'Keitä nakit ja lämmitä hot dog -sämpylät paahtimessa.' },
+      {
+        heading: 'Tarjoilu',
+      },
+      {
+        name: 'suolakurkkuja',
+      },
+      {
+        name: 'ketsuppia',
+      },
+      {
+        name: 'sinappia',
+      },
+    ],
   },
   {
     id: 'it1',
@@ -325,53 +379,7 @@ export const data: Recipe[] = [
     path: '/pad-thai',
     portions: 4,
     tags: [],
-    steps: [
-      {
-        heading: 'Riisi',
-      },
-      {
-        amount: 4,
-        unit: 'dl',
-        name: 'riisiä',
-        inShoppingList: false,
-      },
-      {
-        instruction: 'Huuhtele ja keitä pakkauksen ohjeen mukaan.',
-      },
-      {
-        amount: 3,
-        unit: 'rkl',
-        name: 'riisiviinietikkaa',
-        inShoppingList: false,
-      },
-      {
-        amount: 1,
-        unit: 'tl',
-        name: 'suolaa',
-        inShoppingList: false,
-      },
-      {
-        amount: 1.5,
-        unit: 'rkl',
-        name: 'sokeria',
-        inShoppingList: false,
-      },
-      {
-        instruction: 'Sekoita keskenään ja kaada riisin joukkoon',
-      },
-      {
-        heading: 'Ponzu',
-      },
-      {
-        amount: 4,
-        unit: 'dl',
-        name: 'riisiä',
-        inShoppingList: false,
-      },
-      {
-        instruction: 'Huuhtele ja keitä pakkauksen ohjeen mukaan.',
-      },
-    ],
+    steps: [],
   },
   {
     id: 'pi1',
@@ -475,34 +483,84 @@ export const data: Recipe[] = [
       {
         amount: 3,
         unit: 'rkl',
-        name: 'riisiviinietikkaa',
+        name: 'sushiriisiviinietikkaa',
         inShoppingList: false,
       },
+
       {
-        amount: 1,
-        unit: 'tl',
-        name: 'suolaa',
-        inShoppingList: false,
-      },
-      {
-        amount: 1.5,
-        unit: 'rkl',
-        name: 'sokeria',
-        inShoppingList: false,
-      },
-      {
-        instruction: 'Sekoita keskenään ja kaada riisin joukkoon',
+        instruction: 'Kaada riisin joukkoon',
       },
       {
         heading: 'Ponzu',
       },
       {
-        amount: 4,
+        amount: 1,
+        name: 'sitruuna',
+      },
+      {
+        amount: 1 / 2,
         unit: 'dl',
-        name: 'riisiä',
+        name: 'soijakastiketta',
+      },
+      {
+        amount: 1 / 2,
+        unit: 'dl',
+        name: 'vettä',
+      },
+      {
+        name: 'ruohosipulia',
+      },
+      {
+        unit: 'ripaus',
+        name: 'inkivääriä',
       },
       {
         instruction: 'Huuhtele ja keitä pakkauksen ohjeen mukaan.',
+      },
+      {
+        heading: 'Vihannekset',
+      },
+      {
+        amount: 3,
+        name: 'avokadoa',
+        how: 'viipaloituna',
+      },
+      {
+        amount: 5,
+        name: 'porkkanaa',
+        how: 'viipaloituna',
+      },
+      {
+        name: 'punakaalia',
+        how: 'viipaloituna',
+      },
+      {
+        heading: 'Tonnikalatahna',
+      },
+      {
+        amount: 1,
+        unit: 'purkki',
+        name: 'tonnikalaa',
+      },
+      {
+        amount: 1 / 2,
+        unit: 'dl',
+        name: 'chreme fraiche',
+      },
+      {
+        name: 'sitruunaa',
+      },
+      {
+        name: 'ruohosipulia',
+      },
+      {
+        heading: 'Tarjoiluun',
+      },
+      {
+        name: 'sushi-inkivääriä',
+      },
+      {
+        name: 'wasabia',
       },
     ],
   },

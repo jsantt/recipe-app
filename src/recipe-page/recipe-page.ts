@@ -13,6 +13,7 @@ import '../bottom-bar/bottom-bar.js';
 import '../bottom-bar/bottom-bar-button.js';
 
 import '../choice-chip.js';
+import '../selectable-text.js';
 import '../shopping-list-page/shopping-list-button.js';
 
 import { navigateTo } from '../router.js';
@@ -63,6 +64,8 @@ export class RecipePage extends LitElement {
     p {
       margin: 0;
       padding: 0;
+
+      margin-top: 0.5rem;
     }
   `;
 
@@ -96,7 +99,9 @@ export class RecipePage extends LitElement {
           step =>
             html`<div class="step">
               ${isHeading(step) ? html` <h2>${step.heading}</h2>` : null}
-              ${isInstruction(step) ? html` <p>${step.instruction}</p>` : null}
+              ${isInstruction(step)
+                ? html` <selectable-text>${step.instruction}</selectable-text>`
+                : null}
               ${isIngredient(step)
                 ? html` <choice-chip>
                     ${step.amount} ${step.unit} ${step.name}

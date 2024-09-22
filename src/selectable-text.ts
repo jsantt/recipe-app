@@ -1,8 +1,8 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
-@customElement('choice-chip')
-export class InstructionsTab extends LitElement {
+@customElement('selectable-text')
+export class SelectableText extends LitElement {
   @property({ type: Boolean, reflect: true })
   selected: boolean = false;
 
@@ -11,18 +11,11 @@ export class InstructionsTab extends LitElement {
       display: inline-block;
     }
 
-    :host([selected]) button {
-      background: rgb(152, 208, 195);
-      padding-right: 0.5rem;
-      padding-left: 0.5rem;
-    }
-
     button {
       all: unset;
 
-      background: #ccc;
       border-radius: 2rem;
-      color: var(--color-black);
+      color: var(--color-white);
       cursor: pointer;
 
       display: flex;
@@ -30,7 +23,7 @@ export class InstructionsTab extends LitElement {
       font-size: 1rem;
       line-height: 1;
 
-      padding: 0.375rem 1rem;
+      padding: 0.5rem 0 1rem 0;
     }
 
     :host([selected]) svg {
@@ -41,6 +34,7 @@ export class InstructionsTab extends LitElement {
       display: none;
       padding-right: 0.25rem;
       width: 0.75rem;
+      fill: white;
     }
   `;
 
