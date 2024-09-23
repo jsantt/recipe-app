@@ -26,10 +26,6 @@ export type Ingredient = {
   inShoppingList?: boolean;
 };
 
-export type Step = {
-  step: Heading | Instruction | Ingredient;
-};
-
 export function isInstruction(obj: any): obj is Instruction {
   return obj && typeof obj.instruction === 'string';
 }
@@ -309,7 +305,29 @@ export const data: Recipe[] = [
     path: '/hampurilaiset',
     portions: 4,
     tags: [],
-    steps: [],
+    steps: [
+      {
+        name: 'hampurilaissämpylöitä',
+      },
+      {
+        name: 'majoneesia',
+      },
+      {
+        name: 'ketsuppia',
+      },
+      {
+        name: 'suolakurkkuja',
+      },
+      {
+        name: 'salaatti',
+      },
+      {
+        name: 'tomaatti',
+      },
+      {
+        name: 'halloum-juusto',
+      },
+    ],
   },
   {
     id: 'ho1',

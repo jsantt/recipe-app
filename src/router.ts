@@ -1,7 +1,7 @@
 const routeChangedEventName = 'route-url-changed';
 
-function getPage(): 'home' | 'recipe' | 'shopping-list' {
-  if (window.location.pathname.includes('/shopping-list')) {
+function getPage(path: string): 'home' | 'recipe' | 'shopping-list' {
+  if (path.includes('/shopping-list')) {
     return 'shopping-list';
   }
 
@@ -15,7 +15,8 @@ function getPage(): 'home' | 'recipe' | 'shopping-list' {
   return 'recipe';
 }
 
-function navigateTo(path: string) {
+function navigateTo(event: Event, path: string) {
+  event.preventDefault();
   const newUrl = new URL(window.location.href);
   newUrl.pathname = path;
   window.history.pushState(null, document.title, newUrl);
@@ -28,7 +29,7 @@ function navigateBack() {
   dispatchRouteChanged();
 }
 
-function toggleModal(modalName: string) {
+function toggleModal(modalName: string): void {
   const newSearchParams = new URLSearchParams(window.location.search);
   if (newSearchParams.has(modalName)) {
     newSearchParams.delete(modalName);
@@ -42,6 +43,7 @@ function toggleModal(modalName: string) {
 
   dispatchRouteChanged();
 }
+
 
 function dispatchRouteChanged() {
   // history.back queues the back event. Thus we wait URL to be updated before dispatching the event (and re-rendering)

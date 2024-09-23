@@ -1,4 +1,4 @@
-function toggleUrlParam(paramName: string) {
+function toggleUrlParam(paramName: string): URLSearchParams {
   const newSearchParams = new URLSearchParams(window.location.search);
   if (newSearchParams.has(paramName)) {
     newSearchParams.delete(paramName);
@@ -9,6 +9,24 @@ function toggleUrlParam(paramName: string) {
   const newUrl = new URL(window.location.href);
   newUrl.search = newSearchParams.toString();
   window.history.pushState(null, document.title, newUrl);
+
+  return newSearchParams;
+}
+
+function addIntoUrl(searchParams: URLSearchParams): void {
+  const newUrl = `${window.location.pathname}?${searchParams.toString()}`;
+
+  window.history.pushState(null, document.title, newUrl);
+}
+
+function storeIntoUrl(key: string) {
+  const newSearchParams = new URLSearchParams(window.location.search);
+  if (newSearchParams.get(key) === null) {
+    newSearchParams.append(key, '');
+  } else {
+    newSearchParams.delete(key);
+  }
+  return newSearchParams;
 }
 
 function hasUrlParam(paramName: string): boolean {
@@ -46,4 +64,10 @@ function addSelectedRecipeIntoUrl(recipeId: string) {
   addToCommaSeparatedList(previousValue, recipeId);
 }
 
-export { addSelectedRecipeIntoUrl, hasUrlParam, toggleUrlParam };
+export {
+  addIntoUrl,
+  addSelectedRecipeIntoUrl,
+  hasUrlParam,
+  toggleUrlParam,
+  storeIntoUrl,
+};

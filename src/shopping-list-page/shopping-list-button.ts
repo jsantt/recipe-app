@@ -24,10 +24,14 @@ export class ShoppingListButton extends LitElement {
       border-top: var(--border);
       border-bottom: var(--border);
       border-left: var(--border);
-      height: 6rem;
-      width: 2.5rem;
 
-      padding: 0.5rem;
+      border-top-left-radius: 0.25rem;
+      border-bottom-left-radius: 0.25rem;
+
+      height: 8rem;
+      width: 3rem;
+
+      padding: 0.75rem;
       text-align: center;
 
       z-index: 1;

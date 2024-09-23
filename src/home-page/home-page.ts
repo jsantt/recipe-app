@@ -7,8 +7,11 @@ import { navigateTo } from '../router.js';
 
 import '../shopping-list-page/shopping-list-button.js';
 import '../text-checkbox.js';
-import '../choice-chip.js';
-import { toggleUrlParam } from '../url.js';
+import { SelectableChip } from '../selectable-chip.js';
+import '../router-link.js';
+
+import { storeIntoUrl, toggleUrlParam } from '../url.js';
+import { writeToLocalStorage } from '../local-storage.js';
 
 @customElement('home-page')
 export class HomePage extends LitElement {
@@ -72,7 +75,7 @@ export class HomePage extends LitElement {
   recipes: Recipe[] = [];
 
   @query('[id=random]')
-  randomCheckbox!: HTMLElement;
+  randomChip!: HTMLElement;
 
   @query('[id=fodmap]')
   fodmapCheckbox!: HTMLElement;
@@ -85,23 +88,24 @@ export class HomePage extends LitElement {
       <h1>Kaalilaatikko.com</h1>
       <main>
         <section class="tags">
-          <choice-chip
+          <selectable-chip
             selected
-            green
+            round
             id="ready"
             @click=${() => this.filterByReadyness(this.readyCheckbox)}
           >
             valmiit
-          </choice-chip>
-          <choice-chip green id="random" @click=${this.toggleRandom}>
+          </selectable-chip>
+          <selectable-chip round id="random" @click=${this.toggleRandom}>
             satunnainen
-          </choice-chip>
-          <choice-chip
+          </selectable-chip>
+          <selectable-chip
+            round
             id="fodmap"
             @click=${() => this.filterByTag('fodmap', this.fodmapCheckbox)}
           >
             fodmap
-          </choice-chip>
+          </selectable-chip>
         </section>
         <ul>
           ${this.recipes
@@ -117,15 +121,9 @@ export class HomePage extends LitElement {
                     .value=${recipe.path}
                     @change=${() => this.recipeClicked(recipe)}
                   />
-                  <a
-                    slot="text"
-                    href=${recipe.path}
-                    @click=${(ev: Event) => {
-                      ev.preventDefault();
-                      navigateTo(recipe.path);
-                    }}
+                  <router-link slot="text" href=${recipe.path}
                     >${recipe.name}
-                  </a>
+                  </router-link>
                 </label>
               </li>`
             )}
@@ -144,7 +142,7 @@ export class HomePage extends LitElement {
         <bottom-bar-button
           middle
           @click=${() => {
-            // this.randomCheckbox.setAttribute('selected', '') = true;
+            (this.randomChip as SelectableChip).selected = true;
             this.toggleRandom();
           }}
           ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
@@ -167,24 +165,16 @@ export class HomePage extends LitElement {
       </bottom-bar>
       <shopping-list-button
         .recipes=${this.recipes}
-        @click=${() => {
-          navigateTo('shopping-list');
+        @click=${(ev: Event) => {
+          navigateTo(ev, 'shopping-list');
         }}
       ></shopping-list-button>
     `;
   }
 
   recipeClicked(clickedRecipe: Recipe) {
-    const newSearchParams = new URLSearchParams(window.location.search);
-    if (newSearchParams.get(clickedRecipe.id) === null) {
-      newSearchParams.append(clickedRecipe.id, '');
-    } else {
-      newSearchParams.delete(clickedRecipe.id);
-    }
-
-    const newUrl = new URL(window.location.href);
-    newUrl.search = newSearchParams.toString();
-    window.history.pushState(null, document.title, newUrl);
+    const newSearchParams = toggleUrlParam(clickedRecipe.id);
+    writeToLocalStorage('searchParams', newSearchParams);
 
     const recipes = this.recipes.map((recipe: Recipe) => {
       if (clickedRecipe.id !== recipe.id) {
@@ -208,20 +198,30 @@ export class HomePage extends LitElement {
   }
 
   toggleRandom() {
+    toggleUrlParam('random');
+
+    if (!this.randomChip.hasAttribute('selected')) {
+      const recipes = this.recipes.map(item => {
+        const copy = { ...item };
+        copy.show = false;
+        return copy;
+      });
+      this.dispatchChanged(recipes);
+      return;
+    }
+
     const random = Math.floor(Math.random() * this.recipes.length);
 
     const recipes = this.recipes.map((item, index: number) => {
       const copy = { ...item };
 
-      if (index === random || !this.randomCheckbox.hasAttribute('selected')) {
+      if (index === random) {
         copy.show = true;
       } else {
         copy.show = false;
       }
       return copy;
     });
-
-    toggleUrlParam('random');
 
     this.dispatchChanged(recipes);
   }
@@ -277,10 +277,13 @@ export class HomePage extends LitElement {
 
   static _share() {
     if (navigator.share) {
+      const url = new URL(window.location.href);
+      url.search = '';
+
       navigator.share({
         title: 'Kaalilaatikko.com',
         text: 'Hei, tässä ehdottamani ruoat',
-        url: window.location.href,
+        url: url.toString(),
       });
     }
   }

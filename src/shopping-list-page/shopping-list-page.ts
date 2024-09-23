@@ -4,7 +4,8 @@ import { isIngredient, Recipe } from '../data/data.js';
 import { navigateTo } from '../router.js';
 
 import '../bottom-bar/bottom-bar.js';
-import '../choice-chip.js';
+import '../selectable-chip.js';
+import '../router-link.js';
 
 @customElement('shopping-list-page')
 export class ShoppingListModal extends LitElement {
@@ -12,6 +13,10 @@ export class ShoppingListModal extends LitElement {
   recipes: Recipe[] = [];
 
   static styles = css`
+    :host {
+      display: block;
+    }
+
     h2 {
       border-bottom: 1px solid #ccc;
       padding-bottom: 0.5rem;
@@ -31,14 +36,16 @@ export class ShoppingListModal extends LitElement {
         ${this.recipes
           ?.filter((recipe: Recipe) => recipe.selected)
           .map(
-            recipe => html` <h2>${recipe.name}</h2>
+            recipe => html` <h2>
+                <router-link href=${recipe.path}>${recipe.name}</router-link>
+              </h2>
               <section>
                 ${recipe.steps.map(step =>
                   isIngredient(step)
                     ? html`
-                        <choice-chip>
+                        <selectable-chip round>
                           ${step.amount} ${step.unit} ${step.name}
-                        </choice-chip>
+                        </selectable-chip>
                       `
                     : null
                 )}
@@ -50,8 +57,8 @@ export class ShoppingListModal extends LitElement {
         <bottom-bar-button></bottom-bar-button>
         <bottom-bar-button
           middle
-          @click=${() => {
-            navigateTo('/');
+          @click=${(ev: Event) => {
+            navigateTo(ev, '/');
           }}
           ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
             <!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->

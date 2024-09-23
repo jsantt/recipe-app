@@ -7,6 +7,8 @@ import './shopping-list-page/shopping-list-page.js';
 
 import { data, Recipe } from './data/data.js';
 import { getPage, routeChangedEventName } from './router.js';
+import { readFromLocalStorage } from './local-storage.js';
+import { addIntoUrl } from './url.js';
 
 @customElement('app-shell')
 export class AppShell extends LitElement {
@@ -25,7 +27,11 @@ export class AppShell extends LitElement {
     super();
     const recipes = data;
 
-    const searchParams = new URLSearchParams(window.location.search);
+    let searchParams = new URLSearchParams(window.location.search);
+    if (searchParams.size === 0) {
+      searchParams = readFromLocalStorage('searchParams');
+      addIntoUrl(searchParams);
+    }
 
     // sync URL param state
     this.recipes = recipes.map((recipe: Recipe) => {
@@ -37,12 +43,11 @@ export class AppShell extends LitElement {
       return copy;
     });
 
-    // sync url path to state
-    this.page = getPage();
+    this.page = getPage(window.location.pathname);
 
     // listen route changes
     window.addEventListener(routeChangedEventName, () => {
-      this.page = getPage();
+      this.page = getPage(window.location.pathname);
     });
   }
 

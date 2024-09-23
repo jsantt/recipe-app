@@ -1,8 +1,8 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
-@customElement('choice-chip')
-export class InstructionsTab extends LitElement {
+@customElement('selectable-chip')
+export class SelectableChip extends LitElement {
   @property({ type: Boolean, reflect: true })
   selected: boolean = false;
 
@@ -17,11 +17,15 @@ export class InstructionsTab extends LitElement {
       padding-left: 0.5rem;
     }
 
+    :host([round]) button {
+      border-radius: 2rem;
+    }
+
     button {
       all: unset;
 
       background: #ccc;
-      border-radius: 2rem;
+      border-radius: 0.25rem;
       color: var(--color-black);
       cursor: pointer;
 

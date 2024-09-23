@@ -12,7 +12,7 @@ import '../text-checkbox.js';
 import '../bottom-bar/bottom-bar.js';
 import '../bottom-bar/bottom-bar-button.js';
 
-import '../choice-chip.js';
+import '../selectable-chip.js';
 import '../selectable-text.js';
 import '../shopping-list-page/shopping-list-button.js';
 
@@ -57,7 +57,7 @@ export class RecipePage extends LitElement {
       margin-bottom: 6rem;
     }
 
-    choice-chip {
+    selectable-chip {
       margin-bottom: 0.5rem;
     }
 
@@ -103,17 +103,17 @@ export class RecipePage extends LitElement {
                 ? html` <selectable-text>${step.instruction}</selectable-text>`
                 : null}
               ${isIngredient(step)
-                ? html` <choice-chip>
+                ? html` <selectable-chip>
                     ${step.amount} ${step.unit} ${step.name}
-                  </choice-chip>`
+                  </selectable-chip>`
                 : null}
             </div>`
         )}
       </main>
       <shopping-list-button
         .recipes=${this.recipes}
-        @click=${() => {
-          navigateTo('shopping-list');
+        @click=${(ev: Event) => {
+          navigateTo(ev, 'shopping-list');
         }}
       ></shopping-list-button>
       <bottom-bar>
@@ -127,8 +127,8 @@ export class RecipePage extends LitElement {
         >
         <bottom-bar-button
           middle
-          @click=${() => {
-            navigateTo('/');
+          @click=${(ev: Event) => {
+            navigateTo(ev, '/');
           }}
           ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
             <!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
