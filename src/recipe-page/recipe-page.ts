@@ -61,6 +61,11 @@ export class RecipePage extends LitElement {
       margin-bottom: 0.5rem;
     }
 
+    button {
+      padding: 0.75rem;
+      border-radius: 2rem;
+    }
+
     p {
       margin: 0;
       padding: 0;
@@ -78,6 +83,9 @@ export class RecipePage extends LitElement {
   @state()
   private recipe: Recipe | undefined;
 
+  @state()
+  private wakeLock: any;
+
   constructor() {
     super();
 
@@ -87,13 +95,34 @@ export class RecipePage extends LitElement {
     this.recipe = getRecipe(recipeName);
   }
 
+  async toggleWakeLock() {
+    // create an async function to request a wake lock
+    try {
+      this.wakeLock = await navigator.wakeLock.request('screen');
+    } catch (err) {
+      // The Wake Lock request has failed - usually system related, such as battery.
+      console.log(err);
+    }
+  }
+
+  async release() {
+    await this.wakeLock.release();
+    this.wakeLock = null;
+  }
+
   render() {
     if (!this.recipe) {
       return html`error`;
     }
     return html`
       <heading><h1>${this.recipe.name}</h1></heading>
-
+      ${'wakeLock' in navigator
+        ? html`<p>
+            <button type="button" @click=${this.toggleWakeLock()}>
+              Pidä näyttö päällä
+            </button>
+          </p>`
+        : null}
       <main>
         ${this.recipe?.steps.map(
           step =>
