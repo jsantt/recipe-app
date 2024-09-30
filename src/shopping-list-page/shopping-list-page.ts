@@ -6,6 +6,7 @@ import { navigateTo } from '../router.js';
 import '../bottom-bar/bottom-bar.js';
 import '../selectable-chip.js';
 import '../router-link.js';
+import { toggleRecipe } from '../data/recipe-helpers.js';
 
 @customElement('shopping-list-page')
 export class ShoppingListModal extends LitElement {
@@ -27,6 +28,12 @@ export class ShoppingListModal extends LitElement {
       flex-wrap: wrap;
       gap: 0.5rem;
     }
+
+    button {
+      border-radius: 2rem;
+      padding: 0.5rem;
+      margin-left: 2rem;
+    }
   `;
 
   render() {
@@ -38,6 +45,12 @@ export class ShoppingListModal extends LitElement {
           .map(
             recipe => html` <h2>
                 <router-link href=${recipe.path}>${recipe.name}</router-link>
+                <button
+                  type="button"
+                  @click=${() => toggleRecipe(recipe, this.recipes, this)}
+                >
+                  Poista
+                </button>
               </h2>
               <section>
                 ${recipe.steps.map(step =>

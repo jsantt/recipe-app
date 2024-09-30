@@ -98,7 +98,7 @@ export class RecipePage extends LitElement {
   async toggleWakeLock() {
     // create an async function to request a wake lock
     try {
-      this.wakeLock = await navigator.wakeLock.request('screen');
+      this.wakeLock = await (navigator as any).wakeLock.request('screen');
     } catch (err) {
       // The Wake Lock request has failed - usually system related, such as battery.
       console.log(err);
@@ -117,11 +117,11 @@ export class RecipePage extends LitElement {
     return html`
       <heading><h1>${this.recipe.name}</h1></heading>
       ${'wakeLock' in navigator
-        ? html`<p>
+        ? html`<!--p>
             <button type="button" @click=${this.toggleWakeLock()}>
               Pidä näyttö päällä
             </button>
-          </p>`
+          </p-->`
         : null}
       <main>
         ${this.recipe?.steps.map(

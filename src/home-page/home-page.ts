@@ -10,8 +10,12 @@ import '../text-checkbox.js';
 import { SelectableChip } from '../selectable-chip.js';
 import '../router-link.js';
 
-import { storeIntoUrl, toggleUrlParam } from '../url.js';
-import { writeToLocalStorage } from '../local-storage.js';
+import {
+  filterByReadyness,
+  filterByTag,
+  removeSelections,
+  toggleRecipe,
+} from '../data/recipe-helpers.js';
 
 @customElement('home-page')
 export class HomePage extends LitElement {
@@ -92,7 +96,8 @@ export class HomePage extends LitElement {
             selected
             round
             id="ready"
-            @click=${() => this.filterByReadyness(this.readyCheckbox)}
+            @click=${() =>
+              filterByReadyness(this.recipes, this.readyCheckbox, this)}
           >
             valmiit
           </selectable-chip>
@@ -102,7 +107,8 @@ export class HomePage extends LitElement {
           <selectable-chip
             round
             id="fodmap"
-            @click=${() => this.filterByTag('fodmap', this.fodmapCheckbox)}
+            @click=${() =>
+              filterByTag(this.recipes, 'fodmap', this.fodmapCheckbox, this)}
           >
             fodmap
           </selectable-chip>
@@ -119,7 +125,7 @@ export class HomePage extends LitElement {
                     ?checked=${recipe.selected === true}
                     name=${recipe.id}
                     .value=${recipe.path}
-                    @change=${() => this.recipeClicked(recipe)}
+                    @change=${() => toggleRecipe(recipe, this.recipes, this)}
                   />
                   <router-link slot="text" href=${recipe.path}
                     >${recipe.name}
@@ -130,7 +136,10 @@ export class HomePage extends LitElement {
         </ul>
       </main>
       <bottom-bar>
-        <bottom-bar-button @click=${this.removeSelections}>
+        <bottom-bar-button
+          @click=${(event: Event) =>
+            removeSelections(this.recipes, event, this)}
+        >
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
             <!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
             <path
@@ -170,109 +179,6 @@ export class HomePage extends LitElement {
         }}
       ></shopping-list-button>
     `;
-  }
-
-  recipeClicked(clickedRecipe: Recipe) {
-    const newSearchParams = toggleUrlParam(clickedRecipe.id);
-    writeToLocalStorage('searchParams', newSearchParams);
-
-    const recipes = this.recipes.map((recipe: Recipe) => {
-      if (clickedRecipe.id !== recipe.id) {
-        return recipe;
-      }
-
-      const copy = { ...recipe };
-      copy.selected = !copy.selected;
-      return copy;
-    });
-
-    this.dispatchChanged(recipes);
-  }
-
-  private dispatchChanged(recipes: Recipe[]) {
-    this.dispatchEvent(
-      new CustomEvent('recipes-changed', {
-        detail: recipes,
-      })
-    );
-  }
-
-  toggleRandom() {
-    toggleUrlParam('random');
-
-    if (!this.randomChip.hasAttribute('selected')) {
-      const recipes = this.recipes.map(item => {
-        const copy = { ...item };
-        copy.show = false;
-        return copy;
-      });
-      this.dispatchChanged(recipes);
-      return;
-    }
-
-    const random = Math.floor(Math.random() * this.recipes.length);
-
-    const recipes = this.recipes.map((item, index: number) => {
-      const copy = { ...item };
-
-      if (index === random) {
-        copy.show = true;
-      } else {
-        copy.show = false;
-      }
-      return copy;
-    });
-
-    this.dispatchChanged(recipes);
-  }
-
-  filterByReadyness(checkbox: HTMLElement) {
-    const recipes = this.recipes.map(item => {
-      const copy = { ...item };
-
-      if (item.steps.length > 0 || !checkbox.hasAttribute('selected')) {
-        copy.show = true;
-      } else {
-        copy.show = false;
-      }
-      return copy;
-    });
-
-    toggleUrlParam('ready');
-
-    this.dispatchChanged(recipes);
-  }
-
-  filterByTag(tagName: string, checkbox: HTMLElement) {
-    const recipes = this.recipes.map(item => {
-      const copy = { ...item };
-
-      if (item.tags.includes(tagName) || !checkbox.hasAttribute('selected')) {
-        copy.show = true;
-      } else {
-        copy.show = false;
-      }
-      return copy;
-    });
-
-    toggleUrlParam(tagName);
-
-    this.dispatchChanged(recipes);
-  }
-
-  removeSelections(event: Event) {
-    event.preventDefault();
-    const recipes = this.recipes?.map((recipe: Recipe) => {
-      const copy = { ...recipe };
-      copy.selected = false;
-      return copy;
-    });
-
-    this.dispatchChanged(recipes);
-
-    const newUrl = new URL(window.location.href);
-    newUrl.search = '';
-    window.history.pushState(null, document.title, newUrl);
   }
 
   static _share() {
