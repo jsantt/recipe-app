@@ -16,6 +16,7 @@ import {
   removeSelections,
   toggleRecipe,
 } from '../data/recipe-helpers.js';
+import { toggleUrlParam } from '../url.js';
 
 @customElement('home-page')
 export class HomePage extends LitElement {
@@ -179,6 +180,43 @@ export class HomePage extends LitElement {
         }}
       ></shopping-list-button>
     `;
+  }
+
+  toggleRandom() {
+    toggleUrlParam('random');
+
+    if (!this.randomChip.hasAttribute('selected')) {
+      const recipes = this.recipes.map(item => {
+        const copy = { ...item };
+        copy.show = false;
+        return copy;
+      });
+      this.dispatchEvent(
+        new CustomEvent('recipes-changed', {
+          detail: recipes,
+        })
+      );
+      return;
+    }
+
+    const random = Math.floor(Math.random() * this.recipes.length);
+
+    const recipes = this.recipes.map((item, index: number) => {
+      const copy = { ...item };
+
+      if (index === random) {
+        copy.show = true;
+      } else {
+        copy.show = false;
+      }
+      return copy;
+    });
+
+    this.dispatchEvent(
+      new CustomEvent('recipes-changed', {
+        detail: recipes,
+      })
+    );
   }
 
   static _share() {
