@@ -11,6 +11,7 @@ export type Ingredient = {
   amount?: number;
   unit?:
     | 'g'
+    | 'kg'
     | 'kpl'
     | 'dl'
     | 'l'
@@ -19,6 +20,7 @@ export type Ingredient = {
     | 'ruukku'
     | 'annosta'
     | 'ripaus'
+    | 'rasia'
     | 'purkki'
     | 'tölkki'
     | 'paketti';
@@ -228,8 +230,64 @@ export const data: Recipe[] = [
     name: 'Broileri-rucolasalaatti',
     path: '/broileri-rucolasalaatti',
     portions: 4,
-    tags: [],
-    steps: [],
+    tags: ['salaatti', 'broileri'],
+    steps: [
+      {
+        amount: 400,
+        unit: 'g',
+        name: 'broilerin leikettä',
+      },
+      {
+        instruction: 'paista kypsäksi',
+      },
+      {
+        heading: 'Marinadi',
+      },
+      {
+        amount: 1,
+        unit: 'dl',
+        name: 'oliiviöljyä',
+      },
+      {
+        amount: 1 / 2,
+        name: 'sitruuna ja sen kuori',
+      },
+      {
+        amount: 1,
+        unit: 'ruukku',
+        name: 'lehtipersiljaa',
+      },
+      {
+        amount: 1 / 2,
+        unit: 'tl',
+        name: 'suolaa',
+      },
+      {
+        amount: 1 / 4,
+        unit: 'tl',
+        name: 'mustapippuria',
+      },
+      {
+        instruction: 'Sekoita kulhoon ja lisää broilereiden joukkoon',
+      },
+      {
+        amount: 1,
+        unit: 'ruukku',
+        name: 'rucolaa',
+      },
+      {
+        instruction:
+          'Laita tarjoiluastian pohjalle. Lisää broilerit marinadissa',
+      },
+      {
+        amount: 30,
+        unit: 'g',
+        name: 'parmesaanilastuja',
+      },
+      {
+        instruction: 'Ripottele päälle',
+      },
+    ],
   },
   {
     id: 'bu1',
@@ -373,7 +431,68 @@ export const data: Recipe[] = [
     path: '/lohipasta',
     portions: 4,
     tags: [],
-    steps: [],
+    steps: [
+      {
+        amount: 1,
+        unit: 'kg',
+        name: 'perunoita',
+      },
+      {
+        amount: 1,
+        unit: 'rasia',
+        name: 'kirsikkatomaatteja',
+      },
+      {
+        amount: 1 / 2,
+        unit: 'dl',
+        name: 'kivettömiä kalamataoliiveja',
+      },
+      {
+        name: 'papuja',
+      },
+      {
+        amount: 1,
+        name: 'kurkku',
+      },
+      {
+        heading: 'Kastike',
+      },
+      {
+        amount: 2,
+        unit: 'rkl',
+        name: 'hienonnettua ruohosipulia',
+      },
+      {
+        amount: 1,
+        unit: 'dl',
+        name: 'kreikkalaista jugurttia',
+      },
+      {
+        amount: 1,
+        unit: 'rkl',
+        name: 'dijonsinappia',
+      },
+      {
+        amount: 2,
+        unit: 'tl',
+        name: 'punaviinietikkaa',
+      },
+      {
+        amount: 1,
+        unit: 'tl',
+        name: 'sokeria',
+      },
+      {
+        amount: 1 / 4,
+        unit: 'tl',
+        name: 'suolaa',
+      },
+      {
+        amount: 300,
+        unit: 'g',
+        name: 'savulohta',
+      },
+    ],
   },
   {
     id: 'na1',
