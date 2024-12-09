@@ -426,6 +426,46 @@ export const data: Recipe[] = [
     steps: [],
   },
   {
+    id: 'lo2',
+    name: 'Lohikiusaus',
+    path: '/Lohikiusaus',
+    portions: 4,
+    tags: [],
+    steps: [
+      {
+        name: 'Lohi',
+      },
+      {
+        name: 'sitruunaa',
+      },
+      {
+        name: 'suolaa',
+      },
+      {
+        name: 'pippuria',
+      },
+      {
+        instruction:
+          'Laita lohi uunivuokaan ja mausta suolalla, pippurilla ja sitruunalla.',
+      },
+      {
+        amount: 1,
+        unit: 'kg',
+        name: 'Perunasuikaleet, pakaste',
+      },
+      {
+        amount: 2,
+        unit: 'dl',
+        name: 'Kaurakermaa',
+      },
+
+      {
+        instruction:
+          'Kaada pakasteperunat ja kaurakerma vuokaan. Paista uunissa perunoiden ohjeen mukaan.',
+      },
+    ],
+  },
+  {
     id: 'lo1',
     name: 'Lohipasta',
     path: '/lohipasta',
