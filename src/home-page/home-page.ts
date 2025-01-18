@@ -34,6 +34,7 @@ export class HomePage extends LitElement {
 
     main {
       margin: 0;
+      padding-bottom: 6rem;
     }
 
     .tags {
@@ -113,7 +114,9 @@ export class HomePage extends LitElement {
           >
             fodmap
           </selectable-chip>
+          
         </section>
+       
         <ul>
           ${this.recipes
             .filter(recipe => recipe.show !== false)

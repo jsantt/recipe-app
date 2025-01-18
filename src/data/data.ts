@@ -15,6 +15,7 @@ export type Ingredient = {
     | 'kpl'
     | 'dl'
     | 'l'
+    | 'liraus'
     | 'rkl'
     | 'tl'
     | 'ruukku'
@@ -23,7 +24,8 @@ export type Ingredient = {
     | 'rasia'
     | 'purkki'
     | 'tölkki'
-    | 'paketti';
+    | 'paketti'
+    | 'puolikas';
   how?: string;
   inShoppingList?: boolean;
 };
@@ -639,6 +641,42 @@ export const data: Recipe[] = [
     steps: [],
   },
   {
+    id: 'si1',
+    name: 'Sitruunakastike kalalle',
+    path: '/Sitruunakastike',
+    portions: 4,
+    tags: [],
+    steps: [
+      {
+        amount: 2,
+        unit: 'dl',
+        name: 'kaurakermaa',
+      },
+      {
+        amount: 1,
+        unit: 'rkl',
+        name: 'vehnä- tai maissijauhoa',
+      },
+
+      {
+        instruction:
+          'kieuhauta pannulla ja mausta sitruunalla, pippurilla ja suolalla.',
+      },
+      {
+        unit: 'puolikas',
+        name: 'sitruuna',
+      },
+      {
+        unit: 'ripaus',
+        name: 'pippuria',
+      },
+      {
+        unit: 'ripaus',
+        name: 'suolaa',
+      },
+    ],
+  },
+  {
     id: 'su1',
     name: 'Sushibowl',
     path: '/sushibowl',
@@ -835,12 +873,98 @@ export const data: Recipe[] = [
     steps: [],
   },
   {
+    id: 'to2',
+    name: 'Tortillat',
+    path: '/tortillat',
+    portions: 4,
+    tags: [],
+    steps: [
+      {
+        unit: 'paketti',
+        name: 'Tortillalettuja',
+      },
+      {
+        name: 'kanaa',
+        unit: 'g',
+        amount: 400,
+      },
+      {
+        unit: 'liraus',
+        name: 'öljyä',
+      },
+      {
+        amount: 1,
+        unit: 'tl',
+        name: 'juustokumina',
+      },
+      {
+        unit: 'ripaus',
+        name: 'paprikajauhetta',
+      },
+      {
+        unit: 'ripaus',
+        name: 'pippuria',
+      },
+      {
+        unit: 'ripaus',
+        name: 'inkivääriä',
+      },
+      { instruction: 'Laita pannulle öljy ja mausteet. Paista kanat' },
+
+      {
+        name: 'Kurkku',
+      },
+      {
+        name: 'Tomaatti',
+      },
+      {
+        name: 'Ananas',
+      },
+      {
+        name: 'Salsakastike',
+      },
+      {
+        instruction:
+          'Tarjoa kurkun, tomaatin, punasipulin, ananaksen juuston ja salsan kanssa',
+      },
+    ],
+  },
+
+  {
     id: 'uu1',
     name: 'Uunifetapasta',
     path: '/uunifetapasta',
     portions: 4,
     tags: [],
     steps: [],
+  },
+  {
+    id: 'uu2',
+    name: 'Uunilohi',
+    path: '/uunilohi',
+    portions: 4,
+    tags: [],
+    steps: [
+      {
+        unit: 'ripaus',
+        name: 'Lohi',
+      },
+      {
+        unit: 'dl',
+        amount: 2,
+        name: 'kaurakermaa tai maustelevite',
+      },
+      {
+        name: 'kirsikka- tai luumutomaatteja',
+      },
+      {
+        name: 'pakastepinaattia',
+      },
+      {
+        instruction: `Laita vuokaan ja paista kiertoilmauunissa 200 asteessa n. 30 min. 
+          Tarjoa perunamuusin kanssa tai pastaan sekoitettuna`,
+      },
+    ],
   },
   {
     id: 'va1',
