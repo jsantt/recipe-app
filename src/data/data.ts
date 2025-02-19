@@ -561,6 +561,58 @@ export const data: Recipe[] = [
     steps: [],
   },
   {
+    id: 'pa2',
+    name: 'Pasta carbonara',
+    path: '/pasta-carbonara',
+    portions: 4,
+    tags: [],
+    steps: [
+      {
+        name: 'spaghettia',
+      },
+      {
+        amount: 200,
+        unit: 'g',
+        name: 'Kalkkuna-, kana- tai porsaan pekonia',
+      },
+      {
+        instruction: 'Keitä spaghettia ohjeen mukaan neljälle. Paista pekonit.',
+      },
+      {
+        amount: 3,
+        name: 'kananmunaa',
+      },
+      {
+        amount: 0.75,
+        unit: 'dl',
+        name: 'kermaa',
+      },
+      {
+        amount: 1,
+        unit: 'dl',
+        name: 'parmesaaniraastetta',
+      },
+      {
+        instruction:
+          'sekoita kananmunat, kerma ja parmesaaniraaste kastikkeeksi. Valuta spaghetti ja laita takaisin kattilaan kastikkeen kanssa. Kuumenna.',
+      },
+
+      {
+        name: 'suolaa',
+      },
+      {
+        name: 'pippuria',
+      },
+      {
+        name: 'tuoreyrttejä, kuten persiljaa, timjamia tai basilikaa',
+      },
+      {
+        instruction:
+          'Mausta suolalla ja pippurilla ja lisää pekonit joukkoon. Tarjoa yrttien kera.',
+      },
+    ],
+  },
+  {
     id: 'pi1',
     name: 'Pinaattipasta',
     path: '/pinaattipasta',
