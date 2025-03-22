@@ -23,6 +23,7 @@ export type Ingredient = {
     | 'ripaus'
     | 'rasia'
     | 'purkki'
+    | 'pussi'
     | 'tölkki'
     | 'paketti'
     | 'puolikas';
@@ -569,6 +570,8 @@ export const data: Recipe[] = [
     steps: [
       {
         name: 'spaghettia',
+        amount: 400,
+        unit: 'g',
       },
       {
         amount: 200,
@@ -650,7 +653,17 @@ export const data: Recipe[] = [
     path: '/pitsa',
     portions: 4,
     tags: [],
-    steps: [],
+    steps: [
+      { heading: 'gluteeniton pohja' },
+      { amount: 5, unit: 'dl', name: 'vettä' },
+      { amount: 3, unit: 'tl', name: 'psylliumia' },
+      { amount: 1, unit: 'pussi', name: 'kuivahiivaa' },
+      { amount: 4, unit: 'dl', name: 'gluteenittomia jauhoja' },
+      {
+        instruction:
+          'Lämmitä vesi 42 asteiseksi ja laita joukkoon psyllium. Anna turvota 5 min. Lisää jauhot ja vatkaa 5 minuuttia tehosekoittimen taikinakoukuilla. Muotoile heti pellille kohoamaan.',
+      },
+    ],
   },
   {
     id: 'po1',
