@@ -1031,6 +1031,7 @@ export const data: Recipe[] = [
       },
     ],
   },
+
   {
     id: 'va1',
     name: 'Valkoinen pitsa',
@@ -1038,5 +1039,55 @@ export const data: Recipe[] = [
     portions: 4,
     tags: [],
     steps: [],
+  },
+  {
+    id: 'vi1',
+    name: 'Vihreä pasta',
+    path: '/vihrea-pasta',
+    portions: 4,
+    tags: [],
+    steps: [
+      {
+        amount: 4,
+        unit: 'annosta',
+        name: 'tagliatelle-pastaa',
+      },
+      {
+        instruction: `Keitä pasta ohjeen mukaan.`,
+      },
+      {
+        amount: 2,
+        name: 'valkosipulinkynttä',
+      },
+      {
+        name: 'kirsikka- tai luumutomaatteja',
+      },
+      {
+        name: 'oliiviöljyä',
+      },
+      {
+        amount: 1,
+        unit: 'pussi',
+        name: 'parmesaaniraastetta',
+      },
+      {
+        name: 'pastan keitinvettä',
+      },
+      {
+        instruction: `kuumenna öljy pannulla ja lisää valkosipuli. Paista kunnes pehmeää ja lisää tomaatit. Lisää lopuksi parmesaani ja loraus pastan keitinvettä.`,
+      },
+      {
+        amount: 1,
+        unit: 'ruukku',
+        name: 'basilikaa',
+      },
+      {
+        amount: 3,
+        name: 'avokadoa',
+      },
+      {
+        instruction: `Lisää basilika ja sekoita. Tarjoa pastan kanssa.`,
+      },
+    ],
   },
 ];
